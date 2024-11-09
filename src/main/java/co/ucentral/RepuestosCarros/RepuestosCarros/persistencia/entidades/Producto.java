@@ -1,9 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,37 +10,41 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table (name = "productos")
+@Table (name = "productos") /*plural tablas*/
 @Entity
-public class Producto {
+public class Producto { /*singular clases*/
     @Id
-    @Column(name = "prod_id")
-    public long id_producto;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id_Producto")
+    public long prod_id;/*llama*/
 
-    @Column(name = "prod_nombre")
-    public String nombre;
+    @Column(name = "Nombre")
+    public String prod_nombre;
 
-    @Column(name = "prod_marca")
-    public String marca;
+    @Column(name = "Marca")
+    public String prod_marca;
 
-    @Column(name = "prod_linea")
-    public String linea;
+    @Column(name = "Linea")
+    public String prod_linea;
 
-    @Column(name = "pro_modelo")
-    public String modelo;
+    @Column(name = "Modelo")
+    public String prod_modelo;
 
-    @Column(name = "pro_cilindraje")
-    public String cilindraje;
+    @Column(name = "Cilindraje")
+    public String prod_cilindraje;
 
-    @Column(name = "pro_referencia")
-    public String referencia;
+    @Column(name = "Referencia")
+    public String prod_referencia;
 
-    @Column(name = "pro_ubicacion")
-    public String ubicacion;
+    @Column(name = "Descripcion")
+    public String prod_descripcion;
 
-    @Column(name = "pro_stock")
-    public int stock;
+    @Column(name = "Ubicacion")
+    public String prod_ubicacion;
 
-    @Column(name = "pro_valor")
-    public long valor;
+    @Column(name = "Stock")
+    public int prod_stock;
+
+    @Column(name = "valor")
+    public long prod_valor;
 }
