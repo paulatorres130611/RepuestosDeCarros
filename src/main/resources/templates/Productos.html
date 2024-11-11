@@ -24,8 +24,9 @@
                     <i class="fas fa-edit"></i> Editar Producto
                 </a>
 
-                <a href="#" id="eliminarButton" class="btn btn-danger mb-5 btn-lg mb-3" disabled onclick="confirmarEliminacion()">
-                    <i class="fas fa-trash-alt"></i> Eliminar Producto
+                <a id="eliminarButton" th:href="@{/productos/confirmarEliminacion(id=${productoSeleccionadoId})}"
+                   class="btn btn-danger" th:attr="disabled=${productoSeleccionadoId == null}">
+                    Eliminar Producto
                 </a>
 
             </div>
@@ -169,10 +170,15 @@
     <!-- parte inferior 5de10 -->
     <div class="mt-5">
         <!-- Barra de busqueda -->
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por nombre, marca o referencia">
-            <button class="btn btn-primary" type="button" onclick="buscarProducto()"><i class="fas fa-search"></i> Buscar</button><!--nuevo -->
-        </div>
+        <form th:action="@{/productos/buscar}" method="get">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar por nombre, marca o referencia"
+                       th:value="${criterioBusqueda}" name="criterioBusqueda">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+        </form>
 
         <!-- Lista de productos (Tabla) -->
         <table class="table table-striped">

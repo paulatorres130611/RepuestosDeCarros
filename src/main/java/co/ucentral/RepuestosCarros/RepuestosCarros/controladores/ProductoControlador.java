@@ -3,12 +3,10 @@ package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProductoServicio;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +16,10 @@ import java.util.List;
 
 public class ProductoControlador {
 
+    @Autowired
     ProductoServicio productoServicio;
+
+
 
     //metodo para cargar y mostrar la lista de productos en la página
     @GetMapping("/productos")
@@ -59,5 +60,36 @@ public class ProductoControlador {
         return "redirect:/productos"; // Redirige a la lista de productos después de guardar los cambios
     }
 
+
+
+
+    /*
+    @PostMapping("/confirmarEliminacion")
+    public String confirmarEliminacion(@RequestParam("id") Long id) {
+        productoSeleccionadoId = id;
+        mostrarConfirmacionEliminar = true;
+        return "redirect:/productos";
+    }
+    @PostMapping("/eliminar")
+    public String eliminarProducto(@RequestParam("id") Long id) {
+        productoServicio.eliminarProducto(id);
+        mostrarConfirmacionEliminar = false;
+        productoSeleccionadoId = null;
+        return "redirect:/productos";
+    }
+    @PostMapping("/cancelarEliminacion")
+    public String cancelarEliminacion() {
+        mostrarConfirmacionEliminar = false;
+        return "redirect:/productos";
+    }
+    */
+
+    @GetMapping("/productos/buscar")
+    public String buscarProducto(@RequestParam("criterioBusqueda") String criterio, Model model) {
+        List<Producto> productos = productoServicio.buscarProductos(criterio);
+        model.addAttribute("productos", productos);
+        model.addAttribute("criterioBusqueda", criterio); // Para mostrar el criterio en el campo de búsqueda
+        return "Productos"; // Nombre de la plantilla
+    }
 
 }

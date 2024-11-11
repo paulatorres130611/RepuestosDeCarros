@@ -28,7 +28,14 @@ public class ProductoServicio {
         productoRepositorio.save(producto); // Guarda el producto actualizado
     }
 
+    /*
+    public void eliminarProducto(Long id) {
+        productoRepositorio.deleteById(id);
+    }
+    */
 
-
+    public List<Producto> buscarProductos(String criterio) {
+        return productoRepositorio.buscarPorCriterio("%" + criterio + "%");
+    }
 
 }
