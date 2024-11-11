@@ -16,10 +16,19 @@ public class ProductoServicio {
     public void guardarProducto(Producto producto) {
         productoRepositorio.save(producto); // Guarda el producto en la base de datos
     }
-
     public List<Producto> obtenerTodosLosProductos() {
         return (List<Producto>) productoRepositorio.findAll();
     }
+
+
+    public Producto obtenerProductoPorId(Long id) { // métodos para obtener un producto por ID
+        return productoRepositorio.findById(id).orElse(null);
+    }
+    public void actualizarProducto(Producto producto) {
+        productoRepositorio.save(producto); // Guarda el producto actualizado
+    }
+
+
 
 
 }
