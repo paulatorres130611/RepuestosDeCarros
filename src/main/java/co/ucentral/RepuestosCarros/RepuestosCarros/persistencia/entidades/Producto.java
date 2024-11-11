@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -45,6 +47,6 @@ public class Producto { /*singular clases*/
     @Column(name = "Stock")
     public int prod_stock;
 
-    @Column(name = "valor")
-    public long prod_valor;
+    @Column(name = "Precio")
+    public BigDecimal prod_precio;
 }

@@ -13,14 +13,13 @@ public class ProductoServicio {
 
     ProductoRepositorio productoRepositorio; //la clase ProductoServicio depende de la interfaz ProductoRepositorio
 
-    //metodos
-    public Producto guardarproducto(Producto producto){
-        return productoRepositorio.save(producto); //llama el metodo save,save guarda el objeto producto en la BDA,retorna al obejto producto
+    public void guardarProducto(Producto producto) {
+        productoRepositorio.save(producto); // Guarda el producto en la base de datos
     }
 
-    public List<Producto> obtenerTodosLosProductos(){
-        List<Producto> listado = (List<Producto>) productoRepositorio.findAll();//la salida dindAll la convierte a una listado
-        return listado;
+    public List<Producto> obtenerTodosLosProductos() {
+        return (List<Producto>) productoRepositorio.findAll();
     }
+
 
 }
