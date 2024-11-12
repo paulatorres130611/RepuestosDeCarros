@@ -13,6 +13,7 @@ public class ProductoServicio {
 
     ProductoRepositorio productoRepositorio; //la clase ProductoServicio depende de la interfaz ProductoRepositorio
 
+    //--------------------------------------------cu_02-------------------------------------------------------------
     public void guardarProducto(Producto producto) {
         productoRepositorio.save(producto); // Guarda el producto en la base de datos
     }
@@ -20,7 +21,7 @@ public class ProductoServicio {
         return (List<Producto>) productoRepositorio.findAll();
     }
 
-
+    //--------------------------------------------cu_03-------------------------------------------------------------
     public Producto obtenerProductoPorId(Long id) { // métodos para obtener un producto por ID
         return productoRepositorio.findById(id).orElse(null);
     }
@@ -28,7 +29,7 @@ public class ProductoServicio {
         productoRepositorio.save(producto); // Guarda el producto actualizado
     }
 
-
+    //--------------------------------------------cu_04-------------------------------------------------------------
     public void eliminarProducto(Long id) {
         productoRepositorio.deleteById(id); // Elimina el producto de la base de datos
     }

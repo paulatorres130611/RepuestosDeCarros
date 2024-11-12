@@ -26,7 +26,7 @@ public class ProductoControlador {
         return "Productos"; //nombre Productos.html
     }
 
-
+    //--------------------------------------------cu_02-------------------------------------------------------------
     //Metodo para cargar,mostrar el formularioCrear
     @GetMapping("/productos/crear")
     public String mostrarFormularioCrear(Model model) {
@@ -41,7 +41,7 @@ public class ProductoControlador {
         productoServicio.guardarProducto(producto); // Llama al servicio para guardar el producto
         return "redirect:/productos"; // Redirige a la lista de productos después de guardar
     }
-
+    //--------------------------------------------cu_03-------------------------------------------------------------
     // Cargar datos de producto para edición
     @GetMapping("/productos/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable("id") Long id, Model model) {
@@ -57,7 +57,7 @@ public class ProductoControlador {
         productoServicio.actualizarProducto(producto); // Metodo en el servicio que se encargará de la actualización
         return "redirect:/productos"; // Redirige a la lista de productos después de guardar los cambios
     }
-
+    //--------------------------------------------cu_04-------------------------------------------------------------
     @GetMapping("/productos/eliminar/{id}")
     public String confirmarEliminacion(@PathVariable("id") Long id, Model model) {
         model.addAttribute("productoId", id); // Pasa el ID del producto a la vista
@@ -71,7 +71,13 @@ public class ProductoControlador {
         return "redirect:/productos";
     }
 
-
+    //--------------------------------------------cu_05-------------------------------------------------------------
+    // Muestra la vista principal
+    @GetMapping("/vistaPrincipal")
+    public String mostrarVistaPrincipal() {
+        return "VistaPrincipal"; // Nombre del archivo HTML sin extensión
+    }
+    //--------------------------------------------cu_16-------------------------------------------------------------
     @GetMapping("/productos/buscar")
     public String buscarProducto(@RequestParam("criterioBusqueda") String criterio, Model model) {
         List<Producto> productos = productoServicio.buscarProductos(criterio);
@@ -79,5 +85,5 @@ public class ProductoControlador {
         model.addAttribute("criterioBusqueda", criterio); // Para mostrar el criterio en el campo de búsqueda
         return "Productos"; // Nombre de la plantilla
     }
-
+//--------------------------------------------cu_0-------------------------------------------------------------
 }
