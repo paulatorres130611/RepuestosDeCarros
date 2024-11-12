@@ -3,7 +3,6 @@ package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProductoServicio;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class ProductoControlador {
 
-    @Autowired
+
     ProductoServicio productoServicio;
 
     //metodo para cargar y mostrar la lista de productos en la página
