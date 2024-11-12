@@ -19,8 +19,6 @@ public class ProductoControlador {
     @Autowired
     ProductoServicio productoServicio;
 
-
-
     //metodo para cargar y mostrar la lista de productos en la página
     @GetMapping("/productos")
     public String listarProductos(Model model) {
@@ -28,6 +26,7 @@ public class ProductoControlador {
         model.addAttribute("productos", productos);
         return "Productos"; //nombre Productos.html
     }
+
 
     //Metodo para cargar,mostrar el formularioCrear
     @GetMapping("/productos/crear")
@@ -50,7 +49,7 @@ public class ProductoControlador {
         Producto producto = productoServicio.obtenerProductoPorId(id);
         model.addAttribute("productoSeleccionado", producto);
         model.addAttribute("mostrarFormularioEditar", true);
-        model.addAttribute("productos", productoServicio.obtenerTodosLosProductos());
+        model.addAttribute("productos", productoServicio.obtenerTodosLosProductos());//aparezca tabla
         return "Productos";
     }
     // Guardar cambios del producto editado
@@ -60,29 +59,19 @@ public class ProductoControlador {
         return "redirect:/productos"; // Redirige a la lista de productos después de guardar los cambios
     }
 
-
-
-
-    /*
-    @PostMapping("/confirmarEliminacion")
-    public String confirmarEliminacion(@RequestParam("id") Long id) {
-        productoSeleccionadoId = id;
-        mostrarConfirmacionEliminar = true;
+    @GetMapping("/productos/eliminar/{id}")
+    public String confirmarEliminacion(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("productoId", id); // Pasa el ID del producto a la vista
+        model.addAttribute("mostrarConfirmacionEliminar", true);
+        model.addAttribute("productos", productoServicio.obtenerTodosLosProductos());
+        return "Productos"; // Asegúrate de que sea el nombre exacto de tu vista HTML
+    }
+    @PostMapping("/productos/eliminar")
+    public String eliminarProducto(@RequestParam("productoId") Long id) {
+        productoServicio.eliminarProducto(id); // Llama al servicio para eliminar el producto
         return "redirect:/productos";
     }
-    @PostMapping("/eliminar")
-    public String eliminarProducto(@RequestParam("id") Long id) {
-        productoServicio.eliminarProducto(id);
-        mostrarConfirmacionEliminar = false;
-        productoSeleccionadoId = null;
-        return "redirect:/productos";
-    }
-    @PostMapping("/cancelarEliminacion")
-    public String cancelarEliminacion() {
-        mostrarConfirmacionEliminar = false;
-        return "redirect:/productos";
-    }
-    */
+
 
     @GetMapping("/productos/buscar")
     public String buscarProducto(@RequestParam("criterioBusqueda") String criterio, Model model) {

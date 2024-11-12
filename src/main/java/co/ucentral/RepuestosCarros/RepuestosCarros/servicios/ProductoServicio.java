@@ -28,11 +28,11 @@ public class ProductoServicio {
         productoRepositorio.save(producto); // Guarda el producto actualizado
     }
 
-    /*
+
     public void eliminarProducto(Long id) {
-        productoRepositorio.deleteById(id);
+        productoRepositorio.deleteById(id); // Elimina el producto de la base de datos
     }
-    */
+
 
     public List<Producto> buscarProductos(String criterio) {
         return productoRepositorio.buscarPorCriterio("%" + criterio + "%");
