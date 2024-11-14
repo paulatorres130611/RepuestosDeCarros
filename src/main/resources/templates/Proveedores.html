@@ -91,7 +91,9 @@
         </thead>
         <tbody>
           <tr th:each="proveedor : ${proveedores}">
-            <td><input type="checkbox" th:onclick="|seleccionarProveedor(${proveedor.prov_rut})|"></td>
+            <td>
+            <input type="checkbox" th:data-rut="${proveedor.prov_rut}" onclick="seleccionarProveedor(this.getAttribute('data-rut'))">
+            </td>
             <td th:text="${proveedor.prov_rut}"></td>
             <td th:text="${proveedor.prov_nombre}"></td>
             <td th:text="${proveedor.prov_telefono}"></td>

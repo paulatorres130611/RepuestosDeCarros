@@ -27,6 +27,7 @@ public class ProveedorControlador {
     public String mostrarFormularioCrearProveedor(Model model) {
         model.addAttribute("mostrarFormularioCrearProveedor", true);
         model.addAttribute("proveedor", new Proveedor());
+        model.addAttribute("proveedores", proveedorServicio.obtenerTodosLosProveedores());
         return "Proveedores";
     }
     @PostMapping("/proveedores/crear")
