@@ -1,5 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProveedorServicio;
 import lombok.AllArgsConstructor;
@@ -64,5 +65,12 @@ public class ProveedorControlador {
         proveedorServicio.eliminarProveedor(id);
         return "redirect:/proveedores";
     }
-
+    //------------------------------------------------cu_16---------------------------------------------------------
+    @GetMapping("/proveedores/buscar")
+    public String buscarProveedor(@RequestParam("criterioBusquedaProveedor") String criterio, Model model) {
+        List<Proveedor> proveedores = proveedorServicio.buscarProveedores(criterio);
+        model.addAttribute("proveedores", proveedores);
+        model.addAttribute("criterioBusquedaProveedor", criterio); // Para mostrar el criterio en el campo de búsqueda
+        return "Proveedores"; // Nombre de la plantilla
+    }
 }

@@ -1,5 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.servicios;
 
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.repositorios.ProveedorRepositorio;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,10 @@ public class ProveedorServicio {
     public void eliminarProveedor(Long id) {
         proveedorRepositorio.deleteById(id);
     }
+    //------------------------------------------------cu_16---------------------------------------------------------
 
+    public List<Proveedor> buscarProveedores(String criterio) {
+        return proveedorRepositorio.buscarPorCriterioProveedor("%" + criterio + "%");
+    }
 
 }

@@ -85,6 +85,6 @@ public class ProductoControlador {
         model.addAttribute("criterioBusqueda", criterio); // Para mostrar el criterio en el campo de búsqueda
         return "Productos"; // Nombre de la plantilla
     }
-    //--------------------------------------------cu_0-------------------------------------------------------------
+    //--------------------------------------------cu_-------------------------------------------------------------
 
 }
