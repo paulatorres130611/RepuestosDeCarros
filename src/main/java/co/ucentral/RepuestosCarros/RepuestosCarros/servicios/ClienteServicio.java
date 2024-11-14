@@ -1,6 +1,7 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.servicios;
 
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Cliente;
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.repositorios.ClienteRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class ClienteServicio {
     public void guardarCliente(Cliente cliente) {
         clienteRepositorio.save(cliente);
     }
+
     //------------------------------------------------cu_13---------------------------------------------------------
 
     public Cliente obtenerClientePorId(Long id) {
@@ -29,9 +31,16 @@ public class ClienteServicio {
     public void actualizarCliente(Cliente cliente) {
         clienteRepositorio.save(cliente);
     }
+
     //------------------------------------------------cu_14---------------------------------------------------------
     public void eliminarCliente(Long id) {
         clienteRepositorio.deleteById(id);
+    }
+
+    //------------------------------------------------cu_16---------------------------------------------------------
+
+    public List<Cliente> buscarClientes(String criterio) {
+        return clienteRepositorio.buscarPorCriterioCliente("%" + criterio + "%");
     }
 
 }

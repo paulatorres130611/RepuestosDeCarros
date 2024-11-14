@@ -1,6 +1,7 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Cliente;
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ClienteServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -64,5 +65,12 @@ public class ClienteControlador {
         clienteServicio.eliminarCliente(id);
         return "redirect:/clientes";
     }
-
+    //------------------------------------------------cu_16---------------------------------------------------------
+    @GetMapping("/clientes/buscar")
+    public String buscarCliente(@RequestParam("criterioBusquedaCliente") String criterio, Model model) {
+        List<Cliente> clientes = clienteServicio.buscarClientes(criterio);
+        model.addAttribute("clientes", clientes);
+        model.addAttribute("criterioBusquedaCliente", criterio); // Para mostrar el criterio en el campo de búsqueda
+        return "Clientes";
+    }
 }
