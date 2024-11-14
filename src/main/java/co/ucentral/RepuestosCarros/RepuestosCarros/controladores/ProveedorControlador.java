@@ -1,6 +1,5 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 
-import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProveedorServicio;
 import lombok.AllArgsConstructor;
@@ -65,4 +64,5 @@ public class ProveedorControlador {
         proveedorServicio.eliminarProveedor(id);
         return "redirect:/proveedores";
     }
+
 }

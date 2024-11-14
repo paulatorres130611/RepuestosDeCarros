@@ -1,6 +1,5 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.servicios;
 
-import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.repositorios.ProveedorRepositorio;
 import lombok.AllArgsConstructor;
