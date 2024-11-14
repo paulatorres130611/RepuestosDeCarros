@@ -1,0 +1,25 @@
+package co.ucentral.RepuestosCarros.RepuestosCarros.servicios;
+
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.repositorios.ProveedorRepositorio;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+@AllArgsConstructor
+@Service
+public class ProveedorServicio {
+
+    ProveedorRepositorio proveedorRepositorio;
+
+    //-------------------------------------------cu_06---------------------------------------------------
+    public List<Proveedor> obtenerTodosLosProveedores() {
+        return (List<Proveedor>) proveedorRepositorio.findAll();
+    }
+
+    public void guardarProveedor(Proveedor proveedor) {
+        proveedorRepositorio.save(proveedor);
+    }
+}

@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ProductoControlador {
 
-
     ProductoServicio productoServicio;
 
     //metodo para cargar y mostrar la lista de productos en la página
