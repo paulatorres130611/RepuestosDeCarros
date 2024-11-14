@@ -92,8 +92,17 @@
               <input type="text" class="form-control" id="editarcorreoproveedor" th:field="*{prov_correo}" required>
             </div>
 
-
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </form>
+        </div>
+
+        <!-- ventana eliminarproveedor -->
+        <div th:if="${mostrarConfirmacionEliminarProveedor}">
+          <h5>¿Está seguro de que desea eliminar este proveedor?</h5>
+          <form th:action="@{/proveedores/eliminar}" th:method="post">
+            <input type="hidden" name="proveedorId" th:value="${proveedorId}">
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="#" class="btn btn-secondary" th:onclick="|location.href='@{/proveedores}'|">Cancelar</a>
           </form>
         </div>
       </div>

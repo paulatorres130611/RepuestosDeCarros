@@ -34,7 +34,7 @@ public class ProductoServicio {
         productoRepositorio.deleteById(id); // Elimina el producto de la base de datos
     }
 
-
+    //--------------------------------------------cu_16-------------------------------------------------------------
     public List<Producto> buscarProductos(String criterio) {
         return productoRepositorio.buscarPorCriterio("%" + criterio + "%");
     }

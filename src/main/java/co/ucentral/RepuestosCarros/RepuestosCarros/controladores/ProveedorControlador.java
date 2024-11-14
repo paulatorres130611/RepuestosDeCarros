@@ -52,4 +52,17 @@ public class ProveedorControlador {
         proveedorServicio.actualizarProveedor(proveedor);
         return "redirect:/proveedores";
     }
+    //------------------------------------------------cu_08---------------------------------------------------------
+    @GetMapping("/proveedores/eliminar/{id}")
+    public String confirmarEliminacion(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("proveedorId", id);
+        model.addAttribute("mostrarConfirmacionEliminarProveedor", true);
+        model.addAttribute("proveedores", proveedorServicio.obtenerTodosLosProveedores());
+        return "Proveedores";
+    }
+    @PostMapping("/proveedores/eliminar")
+    public String eliminarProveedor(@RequestParam("proveedorId") Long id) {
+        proveedorServicio.eliminarProveedor(id);
+        return "redirect:/proveedores";
+    }
 }

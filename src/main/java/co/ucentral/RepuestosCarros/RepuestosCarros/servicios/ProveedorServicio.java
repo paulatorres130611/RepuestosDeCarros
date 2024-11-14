@@ -30,4 +30,10 @@ public class ProveedorServicio {
     public void actualizarProveedor(Proveedor proveedor) {
         proveedorRepositorio.save(proveedor);
     }
+    //------------------------------------------------cu_08---------------------------------------------------------
+    public void eliminarProveedor(Long id) {
+        proveedorRepositorio.deleteById(id);
+    }
+
+
 }
