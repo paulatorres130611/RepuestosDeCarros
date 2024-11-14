@@ -1,5 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.servicios;
 
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.repositorios.ProveedorRepositorio;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,15 @@ public class ProveedorServicio {
     public List<Proveedor> obtenerTodosLosProveedores() {
         return (List<Proveedor>) proveedorRepositorio.findAll();
     }
-
     public void guardarProveedor(Proveedor proveedor) {
+        proveedorRepositorio.save(proveedor);
+    }
+    //------------------------------------------------cu_07---------------------------------------------------------
+
+    public Proveedor obtenerProveedorPorRut(Long id) {
+        return proveedorRepositorio.findById(id).orElse(null);
+    }
+    public void actualizarProveedor(Proveedor proveedor) {
         proveedorRepositorio.save(proveedor);
     }
 }

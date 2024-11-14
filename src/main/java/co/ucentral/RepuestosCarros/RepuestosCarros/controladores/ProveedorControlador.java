@@ -1,5 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 
+import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProveedorServicio;
 import lombok.AllArgsConstructor;
@@ -35,5 +36,20 @@ public class ProveedorControlador {
         proveedorServicio.guardarProveedor(proveedor);
         return "redirect:/proveedores";
     }
-
+    //------------------------------------------------cu_07---------------------------------------------------------
+    // Cargar datos de producto para edición
+    @GetMapping("/proveedores/editar/{id}")
+    public String mostrarFormularioEditarProveedor(@PathVariable("id") Long id, Model model) {
+        Proveedor proveedor = proveedorServicio.obtenerProveedorPorRut(id);
+        model.addAttribute("proveedorSeleccionado", proveedor);
+        model.addAttribute("mostrarFormularioEditarProveedor", true);
+        model.addAttribute("proveedores", proveedorServicio.obtenerTodosLosProveedores());//aparezca tabla
+        return "Proveedores";
+    }
+    // Guardar cambios del producto editado
+    @PostMapping("/proveedores/editar")
+    public String editarProveedor(@ModelAttribute("proveedorSeleccionado") Proveedor proveedor) {
+        proveedorServicio.actualizarProveedor(proveedor);
+        return "redirect:/proveedores";
+    }
 }

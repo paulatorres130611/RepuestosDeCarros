@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Proveedor {
     @Id
     @Column(name = "Rut")
-    public String prov_rut;
+    public long prov_rut;
 
     @Column(name = "Nombre")
     public String prov_nombre;
