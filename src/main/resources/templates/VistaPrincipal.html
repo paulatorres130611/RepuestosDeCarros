@@ -2,80 +2,105 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
   <title>Sistema de Inventario de Repuestos de Carros</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <style>
-      body {
-      font-family: "Times new roman";
-      background: deepskyblue;
-      margin: 0;
-      padding: 10px; /*relleno*/
+    /* Fondo general de la página */
+    body {
+      background-color: #f5f5dc; /* Color beige */
     }
-    h1 {
-      text-align: center; /*alineaciondetexto*/
-      color: black;
-      font-size:50px;
+
+    /* Estilo de las tarjetas */
+    .card-hover {
+      background-color: #d1e7ff; /* Azul suave para las tarjetas */
+      border: none;
+      border-radius: 10px; /* Bordes redondeados */
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra inicial */
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
     }
-    .container {
-      display: flex;/* organiza en linea las cajitas */
-      justify-content: space-around;/* espacio entre cada cajita */
-      flex-wrap: wrap;/*cajitas pasen a la siguiente linea*/
+
+    .card-hover:hover {
+      transform: scale(1.05); /* Agranda la tarjeta al hacer hover */
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más intensa al hacer hover */
+      cursor: pointer; /* Cambia el cursor a una mano */
     }
-    .cajita {
-      background-color: white;/* color fondo cajita*/
-      border-radius: 20px;/* redondea las esquinas*/
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);/*agregar sombra */
-      margin: 50px;/*margen cajita */
-      padding: 50px;/* relleno interno cada cajita*/
-      text-align: center;
-      width: 170px;/*ancho */
-      transition: transform 0.5s;/* suavidad en la que  pasa*/
-      cursor: pointer;/*cambia el cursor a manito */
+
+    /* Estilo del título de las tarjetas */
+    .card-title {
+      color: #004085; /* Azul más oscuro para contraste */
     }
-    .cajita:hover {
-      transform: scale(1.05);/*aumenta la cajita cuando se pasa el curso por encima de ella */
+
+    /* Colores de los iconos */
+    .icon i {
+      transition: color 0.3s ease, transform 0.3s ease; /* Transición de color y tamaño */
     }
-    .icon {
-      font-size: 50px;/*tamaño del icono*/
-      margin-bottom: 0px;/*separar los iconos del texto*/
+
+    .icon-productos i { color: #ff6f61; } /* Color rojo suave para Productos */
+    .icon-proveedores i { color: #ffb74d; } /* Color naranja para Proveedores */
+    .icon-clientes i { color: #4db6ac; } /* Color verde azulado para Clientes */
+    .icon-ventas i { color: #7986cb; } /* Color azul morado para Ventas */
+    .icon-compras i { color: #aed581; } /* Color verde claro para Compras */
+
+    .card-hover:hover .icon i {
+      transform: scale(1.2); /* Agranda el icono al hacer hover */
     }
-    .cajita h2 {
-      font-size: 40px;/*tamaño letra cajitas*/
-      margin: 0;/*espacio adicional alrededor del texto */
-      color:lawngreen;
+
+    /* Estilo del título principal */
+    .main-title {
+      color: #003366; /* Azul oscuro para que combine con los iconos */
+      font-weight: bold; /* Negrilla */
     }
   </style>
 </head>
 <body>
-<h1>Sistema de Inventario Repuestos de Carros</h1>
 
-<div class="container">
+<div class="container py-5">
+  <h1 class="text-center main-title display-4 mb-5">Sistema de Inventario Repuestos de Carros</h1>
 
-  <a class="cajita" th:href="@{/productos}">
-    <div class="icon"><i class="fas fa-cog"></i></div><!--usa la biblioteca Font Awesome para mostrar un íconoadecuado para representar productos -->
-    <h2>Productos</h2>
-  </a>
-
-  <a class="cajita" th:href="@{/proveedores}">
-    <div class="icon"><i class="fas fa-truck"></i></div>
-    <h2>Proveedores</h2>
-  </a>
-
-  <a class="cajita" th:href="@{/clientes}">
-    <div class="icon"><i class="fas fa-user"></i></div>
-    <h2>Clientes</h2>
-  </a>
-
-  <a class="cajita" th:href="@{/ventas}">
-    <div class="icon"><i class="fas fa-shopping-cart"></i></div>
-    <h2>Ventas</h2>
-  </a>
-
-  <a class="cajita" th:href="@{/compras}">
-    <div class="icon"><i class="fas fa-receipt"></i></div>
-    <h2>Compras</h2>
-  </a>
+  <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/productos}">
+        <div class="card-body">
+          <div class="icon icon-productos mb-3"><i class="fas fa-cog fa-3x"></i></div>
+          <h2 class="card-title h4">Productos</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/proveedores}">
+        <div class="card-body">
+          <div class="icon icon-proveedores mb-3"><i class="fas fa-truck fa-3x"></i></div>
+          <h2 class="card-title h4">Proveedores</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/clientes}">
+        <div class="card-body">
+          <div class="icon icon-clientes mb-3"><i class="fas fa-user fa-3x"></i></div>
+          <h2 class="card-title h4">Clientes</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/ventas}">
+        <div class="card-body">
+          <div class="icon icon-ventas mb-3"><i class="fas fa-shopping-cart fa-3x"></i></div>
+          <h2 class="card-title h4">Ventas</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/compras}">
+        <div class="card-body">
+          <div class="icon icon-compras mb-3"><i class="fas fa-receipt fa-3x"></i></div>
+          <h2 class="card-title h4">Compras</h2>
+        </div>
+      </a>
+    </div>
+  </div>
 </div>
 
-<!-- este script enlaza la biblioteca de Font Awesome, permitiendo el uso de íconos  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
