@@ -1,6 +1,5 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
