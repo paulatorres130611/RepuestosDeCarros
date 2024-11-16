@@ -51,11 +51,11 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre del Producto</label>
-                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre">
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre" th:value="${nombre != null ? nombre : ''}">
                     </div>
                     <div class="col-md-6">
                         <label for="linea" class="form-label">Línea</label>
-                        <input type="text" id="linea" name="linea" class="form-control" placeholder="Ingrese la línea">
+                        <input type="text" id="linea" name="linea" class="form-control" placeholder="Ingrese la línea" th:value="${linea != null ? linea : ''}">
                     </div>
                     <div class="col-md-12">
                         <button type="button" class="btn btn-primary" id="btnBuscarProducto"
@@ -143,18 +143,61 @@
     // Lógica para manejar productos en la tabla
     let productos = [];
     let totalCompra = 0;
-    document.getElementById("btnBuscarProducto").addEventListener("click", () => {
-        // Lógica para buscar productos
-    });
     document.getElementById("btnAgregarProducto").addEventListener("click", () => {
-        // Lógica para agregar productos a la tabla
+        // Obtener los valores ingresados
+        const nombreProducto = document.getElementById("nombre").value; // Toma el nombre del producto
+        const linea = document.getElementById("linea").value;
+        const cantidad = parseInt(document.getElementById("cantidad").value);
+        const precioCompra = parseFloat(document.getElementById("precioCompra").value);
+
+        // Validar que todos los campos obligatorios estén llenos
+        if (!nombreProducto || !linea || !cantidad || !precioCompra) {
+            alert("Por favor, completa todos los campos antes de agregar el producto.");
+            return;
+        }
+        // Calcular el subtotal
+        const subtotal = cantidad * precioCompra;
+        totalCompra += subtotal;
+
+        // Agregar el producto al array de productos
+        productos.push({ nombre: nombreProducto, linea, cantidad, precioCompra, subtotal });
+        actualizarTabla();
+
+        // Limpiar los campos después de agregar el producto
+        document.getElementById("cantidad").value = '';
+        document.getElementById("precioCompra").value = '';
+        document.getElementById("resultadoProductos").value = '';
     });
+
     function actualizarTabla() {
-        // Actualizar la tabla de productos
+        const tbody = document.getElementById("productosTable");
+        tbody.innerHTML = "";
+        productos.forEach((producto, index) => {
+            const row = `
+            <tr>
+                <td>${producto.nombre}</td>
+                <td>${producto.linea}</td>
+                <td>${producto.cantidad}</td>
+                <td>${producto.precioCompra.toFixed(2)}</td>
+                <td>${producto.subtotal.toFixed(2)}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
+                </td>
+            </tr>
+        `;
+            tbody.innerHTML += row;
+        });
+
+        document.getElementById("totalCompra").value = totalCompra.toFixed(2);
     }
+
     function eliminarProducto(index) {
-        // Eliminar producto de la tabla
+        totalCompra -= productos[index].subtotal;
+        productos.splice(index, 1);
+        actualizarTabla();
     }
+
+
     // Script para autocompletar el proveedor
     document.getElementById("btnAutocompletar").addEventListener("click", () => {
         const rutProveedor = document.getElementById("rutProveedor").value;

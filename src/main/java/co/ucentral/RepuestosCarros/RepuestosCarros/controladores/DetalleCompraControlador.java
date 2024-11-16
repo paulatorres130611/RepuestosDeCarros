@@ -3,7 +3,6 @@ package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.DetalleCompraServicio;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +23,8 @@ public class DetalleCompraControlador {
             Model model) {
         List<Producto> productos = detallecompraServicio.buscarProductosPorNombreYLinea(nombre, linea);
         model.addAttribute("productos", productos);
+        model.addAttribute("nombre", nombre);
+        model.addAttribute("linea", linea);
         return "Compras";
     }
 
