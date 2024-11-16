@@ -15,17 +15,12 @@ public class DetalleCompraControlador {
 
     DetalleCompraServicio detallecompraServicio;
 
-
     @GetMapping("/buscar-productos")
-    public String buscarProductos(
+    @ResponseBody
+    public List<Producto> buscarProductos(
             @RequestParam("nombre") String nombre,
-            @RequestParam("linea") String linea,
-            Model model) {
-        List<Producto> productos = detallecompraServicio.buscarProductosPorNombreYLinea(nombre, linea);
-        model.addAttribute("productos", productos);
-        model.addAttribute("nombre", nombre);
-        model.addAttribute("linea", linea);
-        return "Compras";
+            @RequestParam("linea") String linea) {
+        return detallecompraServicio.buscarProductosPorNombreYLinea(nombre, linea);
     }
 
 }

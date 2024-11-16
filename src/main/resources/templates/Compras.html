@@ -58,10 +58,8 @@
                         <input type="text" id="linea" name="linea" class="form-control" placeholder="Ingrese la línea" th:value="${linea != null ? linea : ''}">
                     </div>
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-primary" id="btnBuscarProducto"
-                                onclick="location.href='/buscar-productos?nombre=' + document.getElementById('nombre').value + '&linea=' + document.getElementById('linea').value">
-                            Buscar Producto
-                        </button>
+                        <button type="button" class="btn btn-primary" id="btnBuscarProducto">Buscar Producto</button>
+
                     </div>
                 </div>
 
@@ -143,6 +141,37 @@
     // Lógica para manejar productos en la tabla
     let productos = [];
     let totalCompra = 0;
+    document.getElementById("btnBuscarProducto").addEventListener("click", () => {
+        const nombre = document.getElementById("nombre").value.trim();
+        const linea = document.getElementById("linea").value.trim();
+
+        if (!nombre || !linea) {
+            alert("Por favor, complete los campos de Nombre del Producto y Línea para buscar.");
+            return;
+        }
+
+        fetch(`/buscar-productos?nombre=${encodeURIComponent(nombre)}&linea=${encodeURIComponent(linea)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al buscar productos. Verifique los datos ingresados.");
+                }
+                return response.json();
+            })
+            .then(productos => {
+                const select = document.getElementById("resultadoProductos");
+                select.innerHTML = `<option value="">Seleccione un producto</option>`;
+                productos.forEach(producto => {
+                    const option = document.createElement("option");
+                    option.value = producto.prod_id;
+                    option.text = `${producto.prod_modelo} - ${producto.prod_cilindraje} - ${producto.prod_referencia}- ${producto.prod_descripcion}`;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error(error.message);
+                alert("Hubo un problema al buscar productos. Inténtelo nuevamente.");
+            });
+    });
     document.getElementById("btnAgregarProducto").addEventListener("click", () => {
         // Obtener los valores ingresados
         const nombreProducto = document.getElementById("nombre").value; // Toma el nombre del producto
