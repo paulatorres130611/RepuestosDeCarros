@@ -14,21 +14,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name = "compras") /*plural tablas*/
+@Table(name = "compras")
 @Entity
 public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id Compra")
+    @Column(name = "id_Compra")
     public long com_id;
 
-    @Column(name = "Fecha de Compra", nullable = false)
-    private LocalDate com_fechacompra = LocalDate.now();
+    @Column(name = "fecha_Compra")
+    public LocalDate com_fechacompra = LocalDate.now();
 
     @ManyToOne
-    @JoinColumn(name = "Proveedor", nullable = false)
-    private Proveedor proveedor;
+    @JoinColumn(name = "proveedor_rut")
+    public Proveedor proveedor;
 
-    @Column(name = "total", nullable = false)
-    private BigDecimal total;
+    @Column(name = "total")
+    public BigDecimal com_total;
 }
