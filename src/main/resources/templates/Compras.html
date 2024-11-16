@@ -2,7 +2,6 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Compra</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,18 +30,18 @@
                 <h3>Registrar Compra</h3>
                 <!-- Barra de búsqueda del proveedor -->
                 <div class="input-group mb-3">
-                    <input type="text" id="rutProveedor" class="form-control" placeholder="Ingrese el RUT del proveedor">
+                    <input type="text" id="rutProveedor" name="rutProveedor" class="form-control" placeholder="Ingrese el RUT del proveedor" th:value="${proveedorRut}">
                     <button class="btn btn-primary" type="button" id="btnAutocompletar">Autocompletar</button>
                 </div>
                 <!-- Campo para mostrar el nombre del proveedor -->
                 <div class="mb-3">
                     <label for="nombreProveedor" class="form-label">Nombre del Proveedor</label>
-                    <input type="text" id="nombreProveedor" class="form-control" placeholder="Nombre del proveedor" readonly>
+                    <input type="text" id="nombreProveedor" name="nombreProveedor" class="form-control" placeholder="Nombre del proveedor" readonly th:value="${proveedorNombre}">
                 </div>
                 <!-- Fecha de la compra -->
                 <div class="mb-3">
                     <label for="fechaCompra" class="form-label">Fecha de Compra</label>
-                    <input type="date" id="fechaCompra" class="form-control" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly>
+                    <input type="date" id="fechaCompra" name="fechaCompra" class="form-control" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly>
                 </div>
 
                 <!-- Detalles de la compra -->
@@ -51,22 +50,22 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre del Producto</label>
-                        <input type="text" id="nombre" class="form-control" placeholder="Ingrese el nombre">
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre">
                     </div>
                     <div class="col-md-6">
                         <label for="linea" class="form-label">Línea</label>
-                        <input type="text" id="linea" class="form-control" placeholder="Ingrese la línea">
+                        <input type="text" id="linea" name="linea" class="form-control" placeholder="Ingrese la línea">
                     </div>
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-primary" id="btnBuscarProducto">Buscar Producto</button>
+                        <button type="button" class="btn btn-primary" id="btnBuscarProducto" th:onclick="|location.href='/productos/buscar?nombre=' + document.getElementById('nombre').value + '&linea=' + document.getElementById('linea').value|">Buscar Producto</button>
                     </div>
                 </div>
                 <!-- Resultados de la búsqueda -->
                 <div class="mt-3">
                     <label for="resultadoProductos" class="form-label">Productos Encontrados</label>
-                    <select id="resultadoProductos" class="form-select">
+                    <select id="resultadoProductos" name="resultadoProductos" class="form-select">
                         <option value="">Seleccione un producto</option>
-                        <!-- Productos encontrados se cargarán aquí -->
+                        <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.nombre}">Producto</option>
                     </select>
                 </div>
 
@@ -74,11 +73,11 @@
                 <div class="row g-3 mt-3">
                     <div class="col-md-6">
                         <label for="cantidad" class="form-label">Cantidad</label>
-                        <input type="number" id="cantidad" class="form-control" placeholder="Cantidad" min="1">
+                        <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Cantidad" min="1">
                     </div>
                     <div class="col-md-6">
                         <label for="precioCompra" class="form-label">Precio de Compra</label>
-                        <input type="number" id="precioCompra" class="form-control" placeholder="Precio de Compra" step="0.01">
+                        <input type="number" id="precioCompra" name="precioCompra" class="form-control" placeholder="Precio de Compra" step="0.01">
                     </div>
                     <div class="col-md-12">
                         <button type="button" class="btn btn-success w-100" id="btnAgregarProducto">Agregar Producto</button>
@@ -103,96 +102,79 @@
                     </tr>
                     </thead>
                     <tbody id="productosTable">
-                    <!-- Los productos se agregarán dinámicamente aquí -->
+                    <tr th:each="producto : ${productosAgregados}">
+                        <td th:text="${producto.nombre}">Nombre</td>
+                        <td th:text="${producto.linea}">Línea</td>
+                        <td th:text="${producto.cantidad}">Cantidad</td>
+                        <td th:text="${producto.precio}">Precio</td>
+                        <td th:text="${producto.subtotal}">Subtotal</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" th:onclick="|eliminarProducto(${producto.id})|">Eliminar</button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <!-- Total -->
                 <div class="mt-3">
                     <label for="totalCompra" class="form-label">Total de la Compra</label>
-                    <input type="text" id="totalCompra" class="form-control" placeholder="0.00" readonly>
+                    <input type="text" id="totalCompra" name="totalCompra" class="form-control" th:value="${totalCompra}" readonly>
                 </div>
                 <!-- Botón Guardar -->
-                <button class="btn btn-primary mt-3 w-100" id="btnGuardarCompra">Guardar Compra</button>
+                <form th:action="@{/compras/guardar}" method="post">
+                    <button class="btn btn-primary mt-3 w-100" type="submit">Guardar Compra</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Lógica para manejar productos en la tabla
     let productos = [];
     let totalCompra = 0;
-
-    // Buscar productos
     document.getElementById("btnBuscarProducto").addEventListener("click", () => {
-        const nombre = document.getElementById("nombre").value;
-        const linea = document.getElementById("linea").value;
+        // Lógica para buscar productos
+    });
+    document.getElementById("btnAgregarProducto").addEventListener("click", () => {
+        // Lógica para agregar productos a la tabla
+    });
+    function actualizarTabla() {
+        // Actualizar la tabla de productos
+    }
+    function eliminarProducto(index) {
+        // Eliminar producto de la tabla
+    }
+    // Script para autocompletar el proveedor
+    document.getElementById("btnAutocompletar").addEventListener("click", () => {
+        const rutProveedor = document.getElementById("rutProveedor").value;
 
-        if (!nombre || !linea) {
-            alert("Por favor, ingrese el nombre y la línea del producto.");
+        // Validar si el usuario ingresó un RUT
+        if (!rutProveedor) {
+            alert("Por favor, ingrese el RUT del proveedor.");
             return;
         }
 
-        fetch(`/productos/buscar?nombre=${nombre}&linea=${linea}`)
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById("resultadoProductos");
-                select.innerHTML = '<option value="">Seleccione un producto</option>';
-                data.forEach(producto => {
-                    const option = document.createElement("option");
-                    option.value = producto.id;
-                    option.textContent = `${producto.nombre} - ${producto.linea}`;
-                    select.appendChild(option);
-                });
+        // Llamar al backend para obtener el nombre del proveedor
+        fetch(`/proveedores/autocompletar?rut=${rutProveedor}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // Backend devuelve solo el nombre del proveedor
+                } else {
+                    throw new Error("Proveedor no encontrado.");
+                }
+            })
+            .then(nombreProveedor => {
+                // Colocar el nombre del proveedor en el campo correspondiente
+                document.getElementById("nombreProveedor").value = nombreProveedor;
+            })
+            .catch(error => {
+                // Mostrar mensaje de error y limpiar el campo de nombre
+                alert(error.message);
+                document.getElementById("nombreProveedor").value = "";
             });
     });
-
-    // Agregar producto a la tabla
-    document.getElementById("btnAgregarProducto").addEventListener("click", () => {
-        const productoId = document.getElementById("resultadoProductos").value;
-        const cantidad = parseInt(document.getElementById("cantidad").value);
-        const precioCompra = parseFloat(document.getElementById("precioCompra").value);
-
-        if (!productoId || !cantidad || !precioCompra) {
-            alert("Por favor, complete todos los campos.");
-            return;
-        }
-
-        // Aquí deberías buscar el producto por ID y usar los datos del inventario
-        const producto = {
-            id: productoId,
-            cantidad: cantidad,
-            precioCompra: precioCompra,
-            subtotal: cantidad * precioCompra,
-        };
-
-        productos.push(producto);
-        actualizarTabla();
-    });
-
-    function actualizarTabla() {
-        const tbody = document.getElementById("productosTable");
-        tbody.innerHTML = "";
-        productos.forEach((producto, index) => {
-            const row = `
-                    <tr>
-                        <td>${producto.id}</td>
-                        <td>${producto.cantidad}</td>
-                        <td>${producto.precioCompra.toFixed(2)}</td>
-                        <td>${producto.subtotal.toFixed(2)}</td>
-                        <td><button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button></td>
-                    </tr>
-                `;
-            tbody.innerHTML += row;
-        });
-
-        document.getElementById("totalCompra").value = productos.reduce((total, p) => total + p.subtotal, 0).toFixed(2);
-    }
-
-    function eliminarProducto(index) {
-        productos.splice(index, 1);
-        actualizarTabla();
-    }
 </script>
 </body>
 </html>

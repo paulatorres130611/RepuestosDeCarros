@@ -12,7 +12,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @Controller
-
 public class ProductoControlador {
 
     ProductoServicio productoServicio;
