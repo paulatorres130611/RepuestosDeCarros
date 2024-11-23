@@ -60,6 +60,11 @@ public class CompraServicio {
                 throw new IllegalArgumentException("El producto con ID " + productoId + " no existe.");
             }
 
+            // Actualizar el stock del producto
+            producto.setProd_stock(producto.getProd_stock() + cantidad); // Incrementar el stock
+            productoServicio.actualizarProducto(producto); // Guardar el producto actualizado
+
+
             // Crear el detalle de compra
             DetalleCompra detalleCompra = new DetalleCompra();
             detalleCompra.setCompra(compra);
