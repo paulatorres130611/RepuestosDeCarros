@@ -198,29 +198,43 @@
             return;
         }
 
-        const productoTexto = document.getElementById("resultadoProductos").selectedOptions[0].text;
+
+        const nombre = document.getElementById("nombre").value.trim();
+        const linea = document.getElementById("linea").value.trim();
         const subtotal = cantidad * precioCompra;
         totalCompra += subtotal;
 
-        productos.push({ id: productoId, texto: productoTexto, cantidad, precioCompra, subtotal });
+        // Agregar los datos al array productos
+        productos.push({
+            id: productoId,
+            nombre: nombre, // Solo el nombre
+            linea: linea, // Línea ingresada
+            cantidad: cantidad,
+            precioCompra: precioCompra,
+            subtotal: subtotal
+        });
+
         actualizarTabla();
 
+        // Limpiar los campos
         document.getElementById("cantidad").value = '';
         document.getElementById("precioCompra").value = '';
         document.getElementById("resultadoProductos").value = '';
+        document.getElementById("linea").value = '';
     });
 
 
     function actualizarTabla() {
         const tbody = document.getElementById("productosTable");
-        tbody.innerHTML = "";
+        tbody.innerHTML = ""; // Limpiar tabla
         productos.forEach((producto, index) => {
             const row = `
         <tr>
-            <td>${producto.texto}</td>
-            <td>${producto.cantidad}</td>
-            <td>${producto.precioCompra.toFixed(2)}</td>
-            <td>${producto.subtotal.toFixed(2)}</td>
+            <td>${producto.nombre}</td> <!-- Mostrar solo el nombre -->
+            <td>${producto.linea}</td> <!-- Mostrar la línea -->
+            <td>${producto.cantidad}</td> <!-- Cantidad -->
+            <td>${producto.precioCompra.toFixed(2)}</td> <!-- Precio -->
+            <td>${producto.subtotal.toFixed(2)}</td> <!-- Subtotal -->
             <td>
                 <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
             </td>
@@ -229,6 +243,7 @@
             tbody.innerHTML += row;
         });
 
+        // Actualizar el total de la compra
         document.getElementById("totalCompra").value = totalCompra.toFixed(2);
     }
 
