@@ -41,7 +41,8 @@
                 <!-- Fecha de la compra -->
                 <div class="mb-3">
                     <label for="fechaCompra" class="form-label">Fecha de Compra</label>
-                    <input type="date" id="fechaCompra" name="fechaCompra" class="form-control" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly>
+                    <input type="date" id="fechaCompra" name="fechaCompra" class="form-control" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+
                 </div>
 
                 <!-- Detalles de la compra -->
@@ -128,6 +129,9 @@
                 </div>
                 <!-- Botón Guardar -->
                 <form th:action="@{/compras/guardar}" method="post">
+                    <input type="hidden" name="proveedorId" id="proveedorId" value="">
+                    <input type="hidden" name="detalles" id="detalles" value="">
+                    <input type="hidden" name="fechaCompra" id="hiddenFechaCompra" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
                     <button class="btn btn-primary mt-3 w-100" type="submit">Guardar Compra</button>
                 </form>
             </div>
@@ -163,7 +167,7 @@
                 productos.forEach(producto => {
                     const option = document.createElement("option");
                     option.value = producto.prod_id;
-                    option.text = `${producto.prod_modelo} - ${producto.prod_cilindraje} - ${producto.prod_referencia}- ${producto.prod_descripcion}`;
+                    option.text = `${producto.prod_modelo} - ${producto.prod_cilindraje} - ${producto.prod_referencia} - ${producto.prod_descripcion}`;
                     select.appendChild(option);
                 });
             })
@@ -172,47 +176,55 @@
                 alert("Hubo un problema al buscar productos. Inténtelo nuevamente.");
             });
     });
+    document.querySelector('form').addEventListener('submit', (event) => {
+        if (productos.length === 0) {
+            alert("Debe agregar al menos un producto antes de guardar la compra.");
+            event.preventDefault();
+            return;
+        }
+
+        const detallesInput = document.getElementById("detalles");
+        const detalles = productos.map(producto => `${producto.id},${producto.cantidad},${producto.precioCompra}`).join(';');
+        detallesInput.value = detalles;
+    });
+
     document.getElementById("btnAgregarProducto").addEventListener("click", () => {
-        // Obtener los valores ingresados
-        const nombreProducto = document.getElementById("nombre").value; // Toma el nombre del producto
-        const linea = document.getElementById("linea").value;
+        const productoId = document.getElementById("resultadoProductos").value;
         const cantidad = parseInt(document.getElementById("cantidad").value);
         const precioCompra = parseFloat(document.getElementById("precioCompra").value);
 
-        // Validar que todos los campos obligatorios estén llenos
-        if (!nombreProducto || !linea || !cantidad || !precioCompra) {
-            alert("Por favor, completa todos los campos antes de agregar el producto.");
+        if (!productoId || !cantidad || !precioCompra) {
+            alert("Por favor, seleccione un producto y complete todos los campos antes de agregar.");
             return;
         }
-        // Calcular el subtotal
+
+        const productoTexto = document.getElementById("resultadoProductos").selectedOptions[0].text;
         const subtotal = cantidad * precioCompra;
         totalCompra += subtotal;
 
-        // Agregar el producto al array de productos
-        productos.push({ nombre: nombreProducto, linea, cantidad, precioCompra, subtotal });
+        productos.push({ id: productoId, texto: productoTexto, cantidad, precioCompra, subtotal });
         actualizarTabla();
 
-        // Limpiar los campos después de agregar el producto
         document.getElementById("cantidad").value = '';
         document.getElementById("precioCompra").value = '';
         document.getElementById("resultadoProductos").value = '';
     });
+
 
     function actualizarTabla() {
         const tbody = document.getElementById("productosTable");
         tbody.innerHTML = "";
         productos.forEach((producto, index) => {
             const row = `
-            <tr>
-                <td>${producto.nombre}</td>
-                <td>${producto.linea}</td>
-                <td>${producto.cantidad}</td>
-                <td>${producto.precioCompra.toFixed(2)}</td>
-                <td>${producto.subtotal.toFixed(2)}</td>
-                <td>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
-                </td>
-            </tr>
+        <tr>
+            <td>${producto.texto}</td>
+            <td>${producto.cantidad}</td>
+            <td>${producto.precioCompra.toFixed(2)}</td>
+            <td>${producto.subtotal.toFixed(2)}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
+            </td>
+        </tr>
         `;
             tbody.innerHTML += row;
         });
@@ -231,31 +243,27 @@
     document.getElementById("btnAutocompletar").addEventListener("click", () => {
         const rutProveedor = document.getElementById("rutProveedor").value;
 
-        // Validar si el usuario ingresó un RUT
         if (!rutProveedor) {
             alert("Por favor, ingrese el RUT del proveedor.");
             return;
         }
 
-        //buscar datos de los productos
-        fetch(`/buscar-productos?nombre=${nombre}&linea=${linea}`)
-        // Llamar al backend para obtener el nombre del proveedor
         fetch(`/proveedores/autocompletar?rut=${rutProveedor}`)
             .then(response => {
                 if (response.ok) {
-                    return response.text(); // Backend devuelve solo el nombre del proveedor
+                    return response.text();
                 } else {
                     throw new Error("Proveedor no encontrado.");
                 }
             })
             .then(nombreProveedor => {
-                // Colocar el nombre del proveedor en el campo correspondiente
                 document.getElementById("nombreProveedor").value = nombreProveedor;
+                document.getElementById("proveedorId").value = rutProveedor; // Actualiza el campo oculto
             })
             .catch(error => {
-                // Mostrar mensaje de error y limpiar el campo de nombre
                 alert(error.message);
                 document.getElementById("nombreProveedor").value = "";
+                document.getElementById("proveedorId").value = ""; // Limpia el campo oculto
             });
     });
 </script>

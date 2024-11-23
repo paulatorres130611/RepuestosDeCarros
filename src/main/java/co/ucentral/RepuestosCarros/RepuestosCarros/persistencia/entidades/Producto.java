@@ -18,35 +18,35 @@ public class Producto { /*singular clases*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Producto")
-    public long prod_id;/*llama*/
+    private long prod_id;/*llama*/
 
     @Column(name = "Nombre")
-    public String prod_nombre;
+    private String prod_nombre;
 
     @Column(name = "Marca")
-    public String prod_marca;
+    private String prod_marca;
 
     @Column(name = "Linea")
-    public String prod_linea;
+    private String prod_linea;
 
     @Column(name = "Modelo")
-    public String prod_modelo;
+    private String prod_modelo;
 
     @Column(name = "Cilindraje")
-    public String prod_cilindraje;
+    private String prod_cilindraje;
 
     @Column(name = "Referencia")
-    public String prod_referencia;
+    private String prod_referencia;
 
     @Column(name = "Descripcion")
-    public String prod_descripcion;
+    private String prod_descripcion;
 
     @Column(name = "Ubicacion")
-    public String prod_ubicacion;
+    private String prod_ubicacion;
 
     @Column(name = "Stock")
-    public int prod_stock;
+    private int prod_stock;
 
     @Column(name = "Precio")
-    public BigDecimal prod_precio;
+    private BigDecimal prod_precio;
 }

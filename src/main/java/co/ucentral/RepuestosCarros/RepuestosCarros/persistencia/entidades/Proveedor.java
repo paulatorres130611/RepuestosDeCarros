@@ -15,17 +15,17 @@ import lombok.Setter;
 public class Proveedor {
     @Id
     @Column(name = "Rut")
-    public long prov_rut;
+    private long prov_rut;
 
     @Column(name = "Nombre")
-    public String prov_nombre;
+    private String prov_nombre;
 
     @Column(name = "Telefono")
-    public String prov_telefono;
+    private String prov_telefono;
 
     @Column(name = "Direccion")
-    public String prov_direccion;
+    private String prov_direccion;
 
     @Column(name = "Correo")
-    public String prov_correo;
+    private String prov_correo;
 }

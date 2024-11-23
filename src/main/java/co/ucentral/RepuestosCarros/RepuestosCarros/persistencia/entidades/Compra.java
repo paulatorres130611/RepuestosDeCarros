@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,15 +21,18 @@ public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Compra")
-    public long com_id;
+    private long com_id;
 
     @Column(name = "fecha_Compra")
-    public LocalDate com_fechacompra = LocalDate.now();
+    private LocalDate com_fechacompra = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name = "proveedor_rut")
-    public Proveedor proveedor;
+    private Proveedor proveedor;
 
     @Column(name = "total")
-    public BigDecimal com_total;
+    private BigDecimal com_total;
+
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleCompra> detalles = new ArrayList<>();
 }
