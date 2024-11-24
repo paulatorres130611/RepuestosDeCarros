@@ -24,6 +24,15 @@
 <body>
 <div class="container mt-5">
     <div class="row">
+        <!-- Bloques de mensajes -->
+        <div class="col-12">
+            <div th:if="${mensaje}" class="alert alert-success">
+                <span th:text="${mensaje}"></span>
+            </div>
+            <div th:if="${error}" class="alert alert-danger">
+                <span th:text="${error}"></span>
+            </div>
+        </div>
         <!-- Parte Izquierda: Formulario -->
         <div class="col-md-6">
             <div class="form-container">
@@ -177,6 +186,12 @@
             });
     });
     document.querySelector('form').addEventListener('submit', (event) => {
+        const nitCliente = document.getElementById("nitCliente").value.trim(); // Asegúrate de que este ID sea correcto
+        if (!nitCliente) {
+            alert("Por favor, agregue un cliente antes de guardar la venta.");
+            event.preventDefault();
+            return;
+        }
         if (productos.length === 0) {
             alert("Debe agregar al menos un producto antes de guardar la venta.");
             event.preventDefault();

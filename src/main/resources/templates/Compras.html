@@ -177,6 +177,13 @@
             });
     });
     document.querySelector('form').addEventListener('submit', (event) => {
+        const rutProveedor = document.getElementById("rutProveedor").value.trim(); // Asegúrate de que este ID sea correcto
+        if (!rutProveedor) {
+            alert("Por favor, agregue un proveedor antes de guardar la compra.");
+            event.preventDefault();
+            return;
+        }
+
         if (productos.length === 0) {
             alert("Debe agregar al menos un producto antes de guardar la compra.");
             event.preventDefault();

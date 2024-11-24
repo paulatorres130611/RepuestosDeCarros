@@ -61,7 +61,7 @@ public class VentaServicio {
 
             // Validar stock disponible
             if (producto.getProd_stock() < cantidad) {
-                throw new IllegalArgumentException("Stock insuficiente para el producto con ID " + productoId);
+                throw new IllegalArgumentException("El producto '" + producto.getProd_nombre() + "' no tiene suficiente stock. Stock disponible: " + producto.getProd_stock());
             }
 
             // Reducir el stock del producto

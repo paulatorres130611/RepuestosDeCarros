@@ -36,17 +36,22 @@ public class VentaControlador {
 
     @PostMapping("/ventas/guardar")
     public String guardarVenta(@RequestParam("clienteId") Long clienteId,
-                                @RequestParam("fechaVenta") String fechaVenta,
-                                @RequestParam("detalles") String detalles,
-                                Model model) {
+                               @RequestParam("fechaVenta") String fechaVenta,
+                               @RequestParam("detalles") String detalles,
+                               Model model) {
         try {
             System.out.println("Cliente ID: " + clienteId);
             System.out.println("Fecha Venta: " + fechaVenta);
             System.out.println("Detalles: " + detalles);
 
+            // Llama al servicio para guardar la venta
             ventaServicio.guardarVenta(clienteId, fechaVenta, List.of(detalles.split(";")));
+
             model.addAttribute("mensaje", "Venta registrada con éxito");
             return "redirect:/ventas";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "Ventas";
         } catch (Exception e) {
             model.addAttribute("error", "Error al registrar la venta: " + e.getMessage());
             return "redirect:/ventas";
