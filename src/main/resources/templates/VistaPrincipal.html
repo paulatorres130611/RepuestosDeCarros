@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <title>Sistema de Inventario de Repuestos de Carros</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Fondo general de la página */
+    body {
+      background-color: #f5f5dc;
+    }
+
+    /* Estilo de las tarjetas */
+    .card-hover {
+      background-color: #d1e7ff;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: scale(1.05); /* Agranda la cajita */
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra */
+      cursor: pointer; /* Cambia el cursor a una mano */
+    }
+
+    /* Estilo del título de las tarjetas */
+    .card-title {
+      color: #004085; /* Azul más oscuro para contraste */
+    }
+
+    /* Colores de los iconos */
+    .icon i {
+      transition: color 0.3s ease, transform 0.3s ease; /* Transición de color y tamaño */
+    }
+
+    .icon-productos i { color: #ff6f61; } /* Color rojo suave para Productos */
+    .icon-proveedores i { color: #ffb74d; } /* Color naranja para Proveedores */
+    .icon-clientes i { color: #4db6ac; } /* Color verde azulado para Clientes */
+    .icon-ventas i { color: #7986cb; } /* Color azul morado para Ventas */
+    .icon-compras i { color: #aed581; } /* Color verde claro para Compras */
+
+    .card-hover:hover .icon i {
+      transform: scale(1.2); /* Agranda el icono al hacer hover */
+    }
+
+    /* Estilo del título principal */
+    .main-title {
+      color: #003366; /* Azul oscuro para que combine con los iconos */
+      font-weight: bold; /* Negrilla */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <h1 class="text-center main-title display-4 mb-5">Sistema de Inventario Repuestos de Carros</h1>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/productos}">
+        <div class="card-body">
+          <div class="icon icon-productos mb-3"><i class="fas fa-cog fa-3x"></i></div>
+          <h2 class="card-title h4">Productos</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/proveedores}">
+        <div class="card-body">
+          <div class="icon icon-proveedores mb-3"><i class="fas fa-truck fa-3x"></i></div>
+          <h2 class="card-title h4">Proveedores</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/clientes}">
+        <div class="card-body">
+          <div class="icon icon-clientes mb-3"><i class="fas fa-user fa-3x"></i></div>
+          <h2 class="card-title h4">Clientes</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/ventas}">
+        <div class="card-body">
+          <div class="icon icon-ventas mb-3"><i class="fas fa-shopping-cart fa-3x"></i></div>
+          <h2 class="card-title h4">Ventas</h2>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/compras}">
+        <div class="card-body">
+          <div class="icon icon-compras mb-3"><i class="fas fa-receipt fa-3x"></i></div>
+          <h2 class="card-title h4">Compras</h2>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
