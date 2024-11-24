@@ -1,6 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 
-import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProveedorServicio;
 import lombok.AllArgsConstructor;
@@ -32,8 +32,9 @@ public class ProveedorControlador {
         return "Proveedores";
     }
     @PostMapping("/proveedores/crear")
-    public String crearProveedor(@ModelAttribute Proveedor proveedor){
+    public String crearProveedor(@ModelAttribute Proveedor proveedor,RedirectAttributes redirectAttributes){
         proveedorServicio.guardarProveedor(proveedor);
+        redirectAttributes.addFlashAttribute("mensaje", "Proveedor creado con éxito.");
         return "redirect:/proveedores";
     }
     //------------------------------------------------cu_07---------------------------------------------------------
@@ -48,8 +49,9 @@ public class ProveedorControlador {
     }
     // Guardar cambios del producto editado
     @PostMapping("/proveedores/editar")
-    public String editarProveedor(@ModelAttribute("proveedorSeleccionado") Proveedor proveedor) {
+    public String editarProveedor(@ModelAttribute("proveedorSeleccionado") Proveedor proveedor,RedirectAttributes redirectAttributes) {
         proveedorServicio.actualizarProveedor(proveedor);
+        redirectAttributes.addFlashAttribute("mensaje", "Proveedor editado con éxito.");
         return "redirect:/proveedores";
     }
     //------------------------------------------------cu_08---------------------------------------------------------
@@ -61,8 +63,9 @@ public class ProveedorControlador {
         return "Proveedores";
     }
     @PostMapping("/proveedores/eliminar")
-    public String eliminarProveedor(@RequestParam("proveedorId") Long id) {
+    public String eliminarProveedor(@RequestParam("proveedorId") Long id,RedirectAttributes redirectAttributes) {
         proveedorServicio.eliminarProveedor(id);
+        redirectAttributes.addFlashAttribute("mensaje", "Proveedor eliminado con éxito.");
         return "redirect:/proveedores";
     }
     //------------------------------------------------cu_16---------------------------------------------------------

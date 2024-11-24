@@ -6,8 +6,8 @@ import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProveedorServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -39,17 +39,17 @@ public class CompraControlador {
     public String guardarCompra(@RequestParam("proveedorId") Long proveedorId,
                                 @RequestParam("fechaCompra") String fechaCompra,
                                 @RequestParam("detalles") String detalles,
-                                Model model) {
+                                RedirectAttributes redirectAttributes) {
         try {
             System.out.println("Proveedor ID: " + proveedorId);
             System.out.println("Fecha Compra: " + fechaCompra);
             System.out.println("Detalles: " + detalles);
 
             compraServicio.guardarCompra(proveedorId, fechaCompra, List.of(detalles.split(";")));
-            model.addAttribute("mensaje", "Compra registrada con éxito");
+            redirectAttributes.addFlashAttribute("mensaje", "Compra registrada con éxito");
             return "redirect:/compras";
         } catch (Exception e) {
-            model.addAttribute("error", "Error al registrar la compra: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error al registrar la compra: " + e.getMessage());
             return "redirect:/compras";
         }
     }

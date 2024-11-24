@@ -1,7 +1,7 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Cliente;
-import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ClienteServicio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,8 +32,9 @@ public class ClienteControlador {
         return "Clientes";
     }
     @PostMapping("/clientes/crear")
-    public String crearCliente(@ModelAttribute Cliente cliente){
+    public String crearCliente(@ModelAttribute Cliente cliente,RedirectAttributes redirectAttributes){
         clienteServicio.guardarCliente(cliente);
+        redirectAttributes.addFlashAttribute("mensaje", "Cliente creado con éxito.");
         return "redirect:/clientes";
     }
     //------------------------------------------------cu_13---------------------------------------------------------
@@ -48,8 +49,9 @@ public class ClienteControlador {
     }
     // Guardar cambios del producto editado
     @PostMapping("/clientes/editar")
-    public String editarProveedor(@ModelAttribute("clienteSeleccionado") Cliente cliente) {
+    public String editarProveedor(@ModelAttribute("clienteSeleccionado") Cliente cliente,RedirectAttributes redirectAttributes) {
         clienteServicio.actualizarCliente(cliente);
+        redirectAttributes.addFlashAttribute("mensaje", "Cliente editado con éxito.");
         return "redirect:/clientes";
     }
     //------------------------------------------------cu_14---------------------------------------------------------
@@ -61,8 +63,9 @@ public class ClienteControlador {
         return "Clientes";
     }
     @PostMapping("/clientes/eliminar")
-    public String eliminarCliente(@RequestParam("clienteId") Long id) {
+    public String eliminarCliente(@RequestParam("clienteId") Long id,RedirectAttributes redirectAttributes) {
         clienteServicio.eliminarCliente(id);
+        redirectAttributes.addFlashAttribute("mensaje", "cliente eliminado con éxito.");
         return "redirect:/clientes";
     }
     //------------------------------------------------cu_16---------------------------------------------------------

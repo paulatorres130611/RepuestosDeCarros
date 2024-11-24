@@ -1,7 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.servicios;
 
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Cliente;
-import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Proveedor;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.repositorios.ClienteRepositorio;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

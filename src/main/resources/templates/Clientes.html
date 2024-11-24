@@ -7,6 +7,12 @@
 </head>
 <body>
 <div class="container mt-5">
+  <div class="mt-3">
+    <a href="/vistaPrincipal" class="btn btn-primary"><i class="fas fa-home"></i>Menú Principal</a>
+  </div>
+  <div th:if="${mensaje}" class="alert alert-success" role="alert">
+    <span th:text="${mensaje}"></span>
+  </div>
   <h1 class="text-center mb-4">Gestion de Clientes</h1>
   <div class="row">
     <div class="col-md-3">

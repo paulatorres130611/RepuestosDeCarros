@@ -1,5 +1,6 @@
 package co.ucentral.RepuestosCarros.RepuestosCarros.controladores;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.ucentral.RepuestosCarros.RepuestosCarros.persistencia.entidades.Producto;
 import co.ucentral.RepuestosCarros.RepuestosCarros.servicios.ProductoServicio;
 import lombok.AllArgsConstructor;
@@ -35,8 +36,9 @@ public class ProductoControlador {
     }
     //Metodo para guardar el producto enviado desde el formulario
     @PostMapping("/productos/crear")
-    public String crearProducto(@ModelAttribute Producto producto) {
+    public String crearProducto(@ModelAttribute Producto producto, RedirectAttributes redirectAttributes) {
         productoServicio.guardarProducto(producto); // Llama al servicio para guardar el producto
+        redirectAttributes.addFlashAttribute("mensaje", "Producto creado con éxito.");
         return "redirect:/productos"; // Redirige a la lista de productos después de guardar
     }
     //--------------------------------------------cu_03-------------------------------------------------------------
@@ -51,8 +53,9 @@ public class ProductoControlador {
     }
     // Guardar cambios del producto editado
     @PostMapping("/productos/editar")
-    public String editarProducto(@ModelAttribute("productoSeleccionado") Producto producto) {
+    public String editarProducto(@ModelAttribute("productoSeleccionado") Producto producto, RedirectAttributes redirectAttributes) {
         productoServicio.actualizarProducto(producto); // Metodo en el servicio que se encargará de la actualización
+        redirectAttributes.addFlashAttribute("mensaje", "Producto editado con éxito.");
         return "redirect:/productos"; // Redirige a la lista de productos después de guardar los cambios
     }
     //--------------------------------------------cu_04-------------------------------------------------------------
@@ -64,8 +67,9 @@ public class ProductoControlador {
         return "Productos"; // Asegúrate de que sea el nombre exacto de tu vista HTML
     }
     @PostMapping("/productos/eliminar")
-    public String eliminarProducto(@RequestParam("productoId") Long id) {
+    public String eliminarProducto(@RequestParam("productoId") Long id,RedirectAttributes redirectAttributes) {
         productoServicio.eliminarProducto(id); // Llama al servicio para eliminar el producto
+        redirectAttributes.addFlashAttribute("mensaje", "Producto eliminado con éxito.");
         return "redirect:/productos";
     }
 
