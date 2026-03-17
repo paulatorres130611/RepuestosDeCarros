@@ -95,4 +95,34 @@ public class CompraServicio {
         }
         compraRepositorio.save(compra); // Actualiza la compra en la base de datos
     }
+
+    //Metodo mostrar consulta historial compras
+    public List<Compra> obtenerHistorialCompras() {
+        return compraRepositorio.listarComprasConDetalles();
+    }
+
+    public BigDecimal calcularTotalHistorialCompras(List<Compra> compras) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (Compra compra : compras) {
+            if (compra.getCom_total() != null) {
+                total = total.add(compra.getCom_total());
+            }
+        }
+
+        return total;
+    }
+
+    public List<Compra> filtrarHistorialCompras(LocalDate desde, LocalDate hasta, String q) {
+
+        if (desde == null) {
+            desde = LocalDate.of(1900, 1, 1);
+        }
+
+        if (hasta == null) {
+            hasta = LocalDate.of(2999, 12, 31);
+        }
+
+        return compraRepositorio.filtrarComprasConDetalles(desde, hasta, q);
+    }
 }

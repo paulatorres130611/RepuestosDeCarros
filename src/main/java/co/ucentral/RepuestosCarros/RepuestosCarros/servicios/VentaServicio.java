@@ -99,4 +99,34 @@ public class VentaServicio {
         }
         ventaRepositorio.save(venta); // Actualiza la venta en la base de datos
     }
+
+    //METODOS PARA HISTORIAL DE VENTAS
+    public List<Venta> obtenerHistorialVentas() {
+        return ventaRepositorio.listarVentasConDetalles();
+    }
+
+    public List<Venta> filtrarHistorialVentas(LocalDate desde, LocalDate hasta, String q) {
+
+        if (desde == null) {
+            desde = LocalDate.of(1900, 1, 1);
+        }
+
+        if (hasta == null) {
+            hasta = LocalDate.of(2999, 12, 31);
+        }
+
+        return ventaRepositorio.filtrarVentasConDetalles(desde, hasta, q);
+    }
+
+    public BigDecimal calcularTotalHistorialVentas(List<Venta> ventas) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (Venta venta : ventas) {
+            if (venta.getVen_total() != null) {
+                total = total.add(venta.getVen_total());
+            }
+        }
+
+        return total;
+    }
 }
