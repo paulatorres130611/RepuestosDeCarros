@@ -542,8 +542,13 @@
         }
 
         timeoutProducto = setTimeout(() => {
-            fetch(`/productos/buscar?term=${encodeURIComponent(texto)}`)
-                .then(response => response.json())
+            fetch(`/productos/busqueda-rapida?term=${encodeURIComponent(texto)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error HTTP en productos");
+                    }
+                    return response.json();
+                })
                 .then(productos => {
                     lista.innerHTML = "";
 
@@ -558,8 +563,13 @@
                         item.className = "result-item";
                         item.innerHTML = `
                             <strong>${producto.nombre}</strong><br>
-                            <small>${producto.linea || ''} ${producto.descripcion ? '- ' + producto.descripcion : ''}</small><br>
-                            <small>Stock: ${producto.stock} | Precio inventario: ${formatearMoneda(producto.precioInventario)}</small>
+                            <div style="font-size: 0.88rem; color: #4b5563; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                ${producto.linea || 'Sin línea'} |
+                                Ref: ${producto.referencia || 'Sin referencia'} |
+                                Modelo: ${producto.modelo || 'Sin modelo'} |
+                                Cilindraje: ${producto.cilindraje || 'Sin cilindraje'} |
+                                ${producto.descripcion || 'Sin descripción'}
+                            </div>
                         `;
                         item.onclick = () => seleccionarProducto(producto);
                         lista.appendChild(item);
@@ -567,7 +577,8 @@
 
                     lista.style.display = "block";
                 })
-                .catch(() => {
+                .catch(error => {
+                    console.error("Error productos:", error);
                     lista.innerHTML = `<div class="result-item">Error al buscar productos</div>`;
                     lista.style.display = "block";
                 });
@@ -577,9 +588,12 @@
     function seleccionarProducto(producto) {
         productoSeleccionado = producto;
 
-        document.getElementById("buscarProducto").value = producto.nombre;
+        document.getElementById("buscarProducto").value =
+        `   ${producto.nombre} ${producto.linea || ''}`.trim();
+
         document.getElementById("productoSeleccionadoTexto").textContent =
-            `${producto.nombre} ${producto.linea ? '- ' + producto.linea : ''}`;
+        `   ${producto.nombre} | ${producto.linea || 'N/A'} | Ref: ${producto.referencia || 'N/A'} | Modelo: ${producto.modelo || 'N/A'}`;
+
         document.getElementById("stockDisponible").textContent = producto.stock ?? 0;
         document.getElementById("precioInventarioTexto").textContent = formatearMoneda(producto.precioInventario);
 

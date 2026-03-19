@@ -39,6 +39,32 @@ public class ProductoServicio {
         return productoRepositorio.buscarPorCriterio("%" + criterio + "%");
     }
 
+    public List<Producto> buscarProductosInteligente(String termino) {
+        List<Producto> todosLosProductos = (List<Producto>) productoRepositorio.findAll();
+
+        String[] palabras = termino.toLowerCase().trim().split("\\s+");
+
+        return todosLosProductos.stream()
+                .filter(producto -> {
+                    String textoProducto = (
+                            (producto.getProd_nombre() != null ? producto.getProd_nombre() : "") + " " +
+                                    (producto.getProd_marca() != null ? producto.getProd_marca() : "") + " " +
+                                    (producto.getProd_linea() != null ? producto.getProd_linea() : "") + " " +
+                                    (producto.getProd_modelo() != null ? producto.getProd_modelo() : "") + " " +
+                                    (producto.getProd_cilindraje() != null ? producto.getProd_cilindraje() : "") + " " +
+                                    (producto.getProd_referencia() != null ? producto.getProd_referencia() : "") + " " +
+                                    (producto.getProd_descripcion() != null ? producto.getProd_descripcion() : "")
+                    ).toLowerCase();
+
+                    for (String palabra : palabras) {
+                        if (!textoProducto.contains(palabra)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                })
+                .toList();
+    }
 
 
 

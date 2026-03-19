@@ -90,5 +90,25 @@ public class ProductoControlador {
     }
     //--------------------------------------------cu_-------------------------------------------------------------
 
+    @GetMapping("/productos/busqueda-rapida")
+    @ResponseBody
+    public List<java.util.Map<String, Object>> busquedaRapidaProductos(@RequestParam("term") String term) {
+        List<Producto> productos = productoServicio.buscarProductosInteligente(term);
+
+        return productos.stream().map(producto -> {
+            java.util.Map<String, Object> map = new java.util.HashMap<>();
+            map.put("id", producto.getProd_id());
+            map.put("nombre", producto.getProd_nombre());
+            map.put("marca", producto.getProd_marca());
+            map.put("linea", producto.getProd_linea());
+            map.put("modelo", producto.getProd_modelo());
+            map.put("cilindraje", producto.getProd_cilindraje());
+            map.put("referencia", producto.getProd_referencia());
+            map.put("descripcion", producto.getProd_descripcion());
+            map.put("stock", producto.getProd_stock());
+            map.put("precioInventario", producto.getProd_precio());
+            return map;
+        }).toList();
+    }
 
 }
