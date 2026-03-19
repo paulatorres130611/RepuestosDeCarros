@@ -11,6 +11,6 @@ import java.util.List;
 
 public interface ClienteRepositorio extends CrudRepository<Cliente, Long> {
 
-    @Query("SELECT c FROM Cliente c WHERE c.cli_nombre LIKE :criterio OR CAST(c.cli_id AS string) LIKE :criterio")
+    @Query("SELECT c FROM Cliente c WHERE LOWER(c.cli_nombre) LIKE LOWER(:criterio) OR CAST(c.cli_id AS string) LIKE :criterio OR c.cli_telefono LIKE :criterio")
     List<Cliente> buscarPorCriterioCliente(@Param("criterio") String criterio);
 }

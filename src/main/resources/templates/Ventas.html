@@ -482,8 +482,13 @@
         }
 
         timeoutCliente = setTimeout(() => {
-            fetch(`/clientes/buscar?nombre=${encodeURIComponent(texto)}`)
-                .then(response => response.json())
+            fetch(`/clientes/busqueda-rapida?nombre=${encodeURIComponent(texto)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error HTTP en clientes");
+                    }
+                    return response.json();
+                })
                 .then(clientes => {
                     lista.innerHTML = "";
 
@@ -496,14 +501,18 @@
                     clientes.forEach(cliente => {
                         const item = document.createElement("div");
                         item.className = "result-item";
-                        item.textContent = `${cliente.nombre} - ${cliente.nit || ''}`;
+                        item.innerHTML = `
+                            <strong>${cliente.nombre}</strong><br>
+                            <small>Cédula/NIT: ${cliente.id || 'Sin dato'} | Tel: ${cliente.telefono || 'Sin teléfono'}</small>
+                        `;
                         item.onclick = () => seleccionarCliente(cliente);
                         lista.appendChild(item);
                     });
 
                     lista.style.display = "block";
                 })
-                .catch(() => {
+                .catch(error => {
+                    console.error("Error clientes:", error);
                     lista.innerHTML = `<div class="result-item">Error al buscar clientes</div>`;
                     lista.style.display = "block";
                 });
@@ -513,7 +522,8 @@
     function seleccionarCliente(cliente) {
         clienteSeleccionado = cliente;
         document.getElementById("buscarCliente").value = cliente.nombre;
-        document.getElementById("clienteSeleccionadoTexto").textContent = `${cliente.nombre} (${cliente.nit || ''})`;
+        document.getElementById("clienteSeleccionadoTexto").textContent =
+            `${cliente.nombre} (${cliente.id || ''}) - Tel: ${cliente.telefono || 'Sin teléfono'}`;
         document.getElementById("clienteId").value = cliente.id;
         document.getElementById("listaClientes").style.display = "none";
     }

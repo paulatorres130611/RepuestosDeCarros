@@ -76,4 +76,20 @@ public class ClienteControlador {
         model.addAttribute("criterioBusquedaCliente", criterio); // Para mostrar el criterio en el campo de búsqueda
         return "Clientes";
     }
+    //----------------------------------------------Registrar venta-----------------------------------------------------
+    @GetMapping("/clientes/busqueda-rapida")
+    @ResponseBody
+    public List<java.util.Map<String, Object>> busquedaRapidaClientes(@RequestParam("nombre") String nombre) {
+        List<Cliente> clientes = clienteServicio.buscarClientes(nombre);
+
+        return clientes.stream().map(cliente -> {
+            java.util.Map<String, Object> map = new java.util.HashMap<>();
+            map.put("id", cliente.getCli_id());
+            map.put("nombre", cliente.getCli_nombre());
+            map.put("telefono", cliente.getCli_telefono());
+            return map;
+        }).toList();
+    }
+
+
 }
