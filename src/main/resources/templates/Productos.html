@@ -1,254 +1,651 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Productos</title>
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario | Autopartes El Sótano</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #f3f6f4 0%, #e8edf0 100%);
+            color: #1f2937;
+        }
+
+        /* HEADER NEGRO PRO */
+        .dark-header {
+            background: #0f172a; /* negro elegante */
+            border-radius: 20px;
+            padding: 18px 22px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        /* CONTENIDO IZQUIERDO */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* TITULO EN BLANCO */
+        .dark-header .page-title {
+            color: #22c55e; /* verde pro */
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        /* BOTON ICONO */
+        .btn-home-icon {
+            background: #22c55e;
+            color: #0f172a;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        /* HOVER PRO */
+        .btn-home-icon:hover {
+            background: #16a34a;
+            transform: scale(1.08);
+        }
+
+        .main-wrapper {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 24px 20px 40px;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        .title-box {
+            background: #ffffff;
+            border: 1px solid #dbe3e8;
+            border-radius: 20px;
+            padding: 16px 22px;
+            flex: 1;
+            min-width: 280px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-img {
+            width: 120px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 12px;
+            padding: 6px;
+            background: #111827; /* fondo oscuro */
+            box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+            transition: 0.3s ease;
+        }
+
+        /* EFECTO PRO */
+        .logo-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(34,197,94,0.4);
+        }
+
+        .page-title {
+            margin: 0;
+            color: #2f7d32;
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-home {
+            background: #1f2937;
+            border: none;
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.25s ease;
+        }
+
+        .btn-home:hover {
+            background: #111827;
+            color: #ffffff;
+        }
+
+        .custom-alert {
+            background: #e8f8ee;
+            border: 1px solid #b7e4c7;
+            color: #1b5e20;
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+        }
+
+        .search-card,
+        .table-card {
+            background: #ffffff;
+            border: 1px solid #dbe3e8;
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid #cfd8df;
+        }
+
+        .form-control:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.15);
+        }
+
+        .table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 12px;
+            padding: 11px 18px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .action-btn i {
+            margin-right: 8px;
+        }
+
+        .btn-green {
+            background: #2f7d32;
+            color: #ffffff;
+        }
+
+        .btn-green:hover {
+            background: #256628;
+            color: #ffffff;
+        }
+
+        .table-scroll {
+            max-height: 420px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border: 1px solid #dfe5ea;
+            border-radius: 16px;
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: #b8c2cc;
+            border-radius: 10px;
+        }
+
+        .table-scroll::-webkit-scrollbar-track {
+            background: #eef2f5;
+        }
+
+        .custom-table {
+            margin: 0;
+            min-width: 1350px;
+            background: #ffffff;
+            color: #212529;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table thead th {
+            background: #1f2937;
+            color: #ffffff;
+            font-size: 0.92rem;
+            border: none;
+            padding: 14px 12px;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .custom-table tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .custom-table tbody tr:nth-child(even) {
+            background-color: #f4fbf4;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #e8f5e9 !important;
+            transition: 0.2s;
+        }
+
+        .custom-table td {
+            color: #212529;
+            border-color: #dee2e6;
+            vertical-align: middle;
+            font-size: 0.93rem;
+            padding: 12px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #495057;
+            padding: 16px;
+            font-weight: 600;
+        }
+
+        .modal-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-title {
+            color: #2f7d32;
+            font-weight: 800;
+        }
+
+        .modal-content {
+            border-radius: 18px;
+            border: none;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+        }
+
+        .save-btn {
+            background: #2f7d32;
+            border: none;
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-weight: 700;
+        }
+
+        .save-btn:hover {
+            background: #256628;
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.55rem;
+            }
+
+            .logo-img {
+                width: 58px;
+                height: 58px;
+            }
+
+            .table-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar-left {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
 
-    <div class="mt-3">
-        <a href="/vistaPrincipal" class="btn btn-primary"><i class="fas fa-home"></i>Menú Principal</a>
+<div class="main-wrapper">
+
+    <div class="top-header dark-header">
+
+        <div class="header-left">
+            <img th:src="@{/images/logo.png}" class="logo-img logo-pro">
+            <h1 class="page-title">INVENTARIO DE PRODUCTOS</h1>
+        </div>
+
+        <a href="/vistaPrincipal" class="btn-home-icon">
+            <i class="fas fa-home"></i>
+        </a>
+
     </div>
-    <div th:if="${mensaje}" class="alert alert-success" role="alert">
+
+    <div th:if="${mensaje}" class="custom-alert" role="alert">
+        <i class="fas fa-circle-check me-2"></i>
         <span th:text="${mensaje}"></span>
     </div>
-    <h1 class="text-center mb-4">Gestión de Productos</h1>
 
-    <div class="row"><!--fila-->
-        <!-- columna mostrar botones 3de12 -->
-        <div class="col-md-3">
-            <div class="d-flex flex-column align-items-start"><!--alinear-->
+    <div class="search-card">
+        <input type="text"
+               id="buscador"
+               class="form-control"
+               placeholder="Buscar por nombre, marca, línea, referencia, descripción o ubicación..."
+               onkeyup="filtrarTabla()">
+    </div>
 
-                <!--botones mb:margenboton, -->
-                <a th:href="@{/productos/crear}" class="btn btn-info mb-3 btn-lg mb-3">
-                    <i class="fas fa-plus-circle"></i> Crear Producto
-                </a>
-
-                <a href="#" id="editarButton" class="btn btn-info mb-5 btn-lg mb-3" disabled>
-                    <i class="fas fa-edit"></i> Editar Producto
-                </a>
-
-                <a href="#" id="eliminarButton" class="btn btn-danger" th:attr="disabled=${productoSeleccionadoId == null}">
-                    <i class="fas fa-trash-alt"></i> Eliminar Producto
-                </a>
-
-
+    <div class="table-card">
+        <div class="table-toolbar">
+            <div class="toolbar-left">
+                <button type="button" class="action-btn btn-green" data-bs-toggle="modal" data-bs-target="#crearProductoModal">
+                    <i class="fas fa-plus-circle"></i>Crear Producto
+                </button>
             </div>
         </div>
 
-        <!--mostrar formularios crear editar eliminar 9de12-->
-        <div class="col-md-9">
+        <div class="table-scroll">
+            <table class="table custom-table align-middle" id="tablaProductos">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th>Línea</th>
+                    <th>Modelo</th>
+                    <th>Cilindraje</th>
+                    <th>Referencia</th>
+                    <th>Descripción</th>
+                    <th>Ubicación</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
 
-            <!-- Formulario crearproducto -->
-            <div id="formularioCrear" th:if="${mostrarFormularioCrear}" >
-                <h4>Crear Producto</h4>
-                <form th:action="@{/productos/crear}" th:method="post" th:object="${producto}" ><!--etiquetaformulario-->
+                <tbody id="bodyProductos">
+                <tr th:each="producto : ${productos}">
+                    <td th:text="${producto.prod_id}"></td>
+                    <td th:text="${producto.prod_nombre}"></td>
+                    <td th:text="${producto.prod_marca}"></td>
+                    <td th:text="${producto.prod_linea}"></td>
+                    <td th:text="${producto.prod_modelo}"></td>
+                    <td th:text="${producto.prod_cilindraje}"></td>
+                    <td th:text="${producto.prod_referencia}"></td>
+                    <td th:text="${producto.prod_descripcion}"></td>
+                    <td th:text="${producto.prod_ubicacion}"></td>
+                    <td th:text="${producto.prod_stock}"></td>
+                    <td>$<span th:text="${#numbers.formatDecimal(producto.prod_precio, 0, 'POINT', 0, 'COMMA')}"></span></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-dark me-1" th:onclick="|abrirEditar(this)|">
+                            <i class="fas fa-edit"></i>
+                        </button>
 
-                    <div class="mb-3">
-                        <label for="prod_nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="prod_nombre" th:field="*{prod_nombre}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_marca" class="form-label">Marca</label>
-                        <input type="text" class="form-control" id="prod_marca" th:field="*{prod_marca}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_linea" class="form-label">Linea</label>
-                        <input type="text" class="form-control" id="prod_linea" th:field="*{prod_linea}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_modelo" class="form-label">Modelo</label>
-                        <input type="text" class="form-control" id="prod_modelo" th:field="*{prod_modelo}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_cilindraje" class="form-label">Cilindraje</label>
-                        <input type="text" class="form-control" id="prod_cilindraje" th:field="*{prod_cilindraje}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_referencia" class="form-label">Referencia</label>
-                        <input type="text" class="form-control" id="prod_referencia" th:field="*{prod_referencia}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_descripcion" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="prod_descripcion" th:field="*{prod_descripcion}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_ubicacion" class="form-label">Ubicación</label>
-                        <input type="text" class="form-control" id="prod_ubicacion" th:field="*{prod_ubicacion}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_stock" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="prod_stock" th:field="*{prod_stock}" min="0" required><!--min=0 que el numero sea mayor o igual a cero,required:tiene que completarse el campo-->
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="prod_precio" class="form-label">Precio</label>
-                        <input type="number" class="form-control" id="prod_precio" th:field="*{prod_precio}" min="0" step="0.01" required><!--step:para aceptar unicamente numeros enteros-->
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </form>
-            </div>
-
-            <!-- Formulario editarproducto -->
-            <div id="formularioEditar" th:if="${mostrarFormularioEditar}">
-                <h5>Editar Producto</h5>
-                <form th:action="@{/productos/editar}" th:method="post" th:object="${productoSeleccionado}">
-                    <input type="hidden" th:field="*{prod_id}">
-
-                    <div class="mb-3">
-                        <label for="editarnombreproducto" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="editarnombreproducto" th:field="*{prod_nombre}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarmarcaproducto" class="form-label">Marca</label>
-                        <input type="text" class="form-control" id="editarmarcaproducto" th:field="*{prod_marca}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarlineaproducto" class="form-label">Linea</label>
-                        <input type="text" class="form-control" id="editarlineaproducto" th:field="*{prod_linea}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarmodeloproducto" class="form-label">Modelo</label>
-                        <input type="text" class="form-control" id="editarmodeloproducto" th:field="*{prod_modelo}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarcilindrajeproducto" class="form-label">Cilindraje</label>
-                        <input type="text" class="form-control" id="editarcilindrajeproducto" th:field="*{prod_cilindraje}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarreferenciaproducto" class="form-label">Referencia</label>
-                        <input type="text" class="form-control" id="editarreferenciaproducto" th:field="*{prod_referencia}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editardescripcionproducto" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="editardescripcionproducto" th:field="*{prod_descripcion}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarubicacionproducto" class="form-label">Ubicación</label>
-                        <input type="text" class="form-control" id="editarubicacionproducto" th:field="*{prod_ubicacion}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarstockproducto" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="editarstockproducto" th:field="*{prod_stock}" min="0" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editarprecioproducto" class="form-label">Precio</label>
-                        <input type="number" class="form-control" id="editarprecioproducto" th:field="*{prod_precio}" min="0" step="0.01" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                </form>
-            </div>
-
-            <!-- ventana eliminarproducto -->
-            <div th:if="${mostrarConfirmacionEliminar}">
-                <h5>¿Está seguro de que desea eliminar este producto?</h5>
-                <form th:action="@{/productos/eliminar}" th:method="post">
-                    <input type="hidden" name="productoId" th:value="${productoId}">
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                    <a href="#" class="btn btn-secondary" th:onclick="|location.href='@{/productos}'|">Cancelar</a>
-                </form>
-            </div>
-
+                        <button type="button" class="btn btn-sm btn-danger" th:onclick="|abrirEliminar(${producto.prod_id})|">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(productos)}">
+                    <td colspan="12" class="empty-state">No hay productos registrados.</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- parte inferior 5de10 -->
-    <div class="mt-5">
-        <!-- Barra de busqueda -->
-        <form th:action="@{/productos/buscar}" method="get">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Buscar por nombre, marca o referencia"
-                       th:value="${criterioBusqueda}" name="criterioBusqueda">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i> Buscar
-                </button>
-            </div>
-        </form>
+</div>
 
-        <!-- Lista de productos (Tabla) -->
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Seleccionar</th>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Marca</th>
-                <th>Linea</th>
-                <th>Modelo</th>
-                <th>Cilindraje</th>
-                <th>Referencia</th>
-                <th>Descripcion</th>
-                <th>Ubicacion</th>
-                <th>Stock</th>
-                <th>Precio</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:each="producto : ${productos}">
-                    <td><input type="checkbox" th:onclick="|seleccionarProducto(${producto.prod_id})|" /></td>
-                    <!-- Checkbox para seleccionar -->
-                <td th:text="${producto.prod_id}"></td>
-                <td th:text="${producto.prod_nombre}"></td>
-                <td th:text="${producto.prod_marca}"></td>
-                <td th:text="${producto.prod_linea}"></td>
-                <td th:text="${producto.prod_modelo}"></td>
-                <td th:text="${producto.prod_cilindraje}"></td>
-                <td th:text="${producto.prod_referencia}"></td>
-                <td th:text="${producto.prod_descripcion}"></td>
-                <td th:text="${producto.prod_ubicacion}"></td>
-                <td th:text="${producto.prod_stock}"></td>
-                <td th:text="${producto.prod_precio}"></td>
-                </tr>
-            </tbody>
-        </table>
+<!-- MODAL CREAR -->
+<div class="modal fade" id="crearProductoModal" tabindex="-1" aria-labelledby="crearProductoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form th:action="@{/productos/crear}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearProductoModalLabel">Crear Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="prod_nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="prod_nombre" name="prod_nombre" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_marca" class="form-label">Marca</label>
+                            <input type="text" class="form-control" id="prod_marca" name="prod_marca" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_linea" class="form-label">Línea</label>
+                            <input type="text" class="form-control" id="prod_linea" name="prod_linea" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_modelo" class="form-label">Modelo</label>
+                            <input type="text" class="form-control" id="prod_modelo" name="prod_modelo" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_cilindraje" class="form-label">Cilindraje</label>
+                            <input type="text" class="form-control" id="prod_cilindraje" name="prod_cilindraje" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_referencia" class="form-label">Referencia</label>
+                            <input type="text" class="form-control" id="prod_referencia" name="prod_referencia" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_descripcion" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="prod_descripcion" name="prod_descripcion" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_ubicacion" class="form-label">Ubicación</label>
+                            <input type="text" class="form-control" id="prod_ubicacion" name="prod_ubicacion" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_stock" class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="prod_stock" name="prod_stock" min="0" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="prod_precio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="prod_precio" name="prod_precio" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-save me-2"></i>Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<!-- Bootstrap JS y dependencias de Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGz1PoqLzYjUrw6Up8zjUL9d5IpVVvg6Vrdp9B8O7N9c2" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-wQ1mZ6ywI9ZPAmW2JvM5PeRWE5yk5TLZZ6bN5dvAuU6pZ7I3UwJREpwaWtrD9D1y" crossorigin="anonymous"></script>
-<!-- Font Awesome JS para íconos -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script><!-- pendiente iconos -->
+<!-- MODAL EDITAR -->
+<div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form th:action="@{/productos/editar}" th:method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" name="prod_id" id="edit_prod_id">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="edit_prod_nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="prod_nombre" id="edit_prod_nombre" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_marca" class="form-label">Marca</label>
+                            <input type="text" class="form-control" name="prod_marca" id="edit_prod_marca" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_linea" class="form-label">Línea</label>
+                            <input type="text" class="form-control" name="prod_linea" id="edit_prod_linea" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_modelo" class="form-label">Modelo</label>
+                            <input type="text" class="form-control" name="prod_modelo" id="edit_prod_modelo" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_cilindraje" class="form-label">Cilindraje</label>
+                            <input type="text" class="form-control" name="prod_cilindraje" id="edit_prod_cilindraje" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_referencia" class="form-label">Referencia</label>
+                            <input type="text" class="form-control" name="prod_referencia" id="edit_prod_referencia" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_descripcion" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" name="prod_descripcion" id="edit_prod_descripcion" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_ubicacion" class="form-label">Ubicación</label>
+                            <input type="text" class="form-control" name="prod_ubicacion" id="edit_prod_ubicacion" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_stock" class="form-label">Stock</label>
+                            <input type="number" class="form-control" name="prod_stock" id="edit_prod_stock" min="0" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_prod_precio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" name="prod_precio" id="edit_prod_precio" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ELIMINAR -->
+<div class="modal fade" id="eliminarProductoModal" tabindex="-1" aria-labelledby="eliminarProductoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form th:action="@{/productos/eliminar}" th:method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="eliminarProductoModalLabel">Eliminar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" name="productoId" id="delete_productoId">
+                    <p class="mb-0">¿Está seguro de que desea eliminar este producto?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-2"></i>Eliminar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 
 <script>
-    let productoSeleccionadoId = null;
+    function filtrarTabla() {
+        let input = document.getElementById("buscador");
+        let filtro = input.value.toLowerCase();
+        let filas = document.querySelectorAll("#tablaProductos tbody tr");
 
-    function seleccionarProducto(id) {
-        productoSeleccionadoId = id;
-        const editarButton = document.getElementById("editarButton");
-        const eliminarButton = document.getElementById("eliminarButton");
+        filas.forEach(fila => {
+            let texto = fila.innerText.toLowerCase();
+            fila.style.display = texto.includes(filtro) ? "" : "none";
+        });
+    }
 
-        editarButton.disabled = false;
-        eliminarButton.disabled = false;
+    function abrirEditar(btn) {
+        let fila = btn.closest("tr");
+        let celdas = fila.querySelectorAll("td");
 
-        editarButton.href = `/productos/editar/${productoSeleccionadoId}`;
-        eliminarButton.href = `/productos/eliminar/${productoSeleccionadoId}`;
+        document.getElementById("edit_prod_id").value = celdas[0].innerText.trim();
+        document.getElementById("edit_prod_nombre").value = celdas[1].innerText.trim();
+        document.getElementById("edit_prod_marca").value = celdas[2].innerText.trim();
+        document.getElementById("edit_prod_linea").value = celdas[3].innerText.trim();
+        document.getElementById("edit_prod_modelo").value = celdas[4].innerText.trim();
+        document.getElementById("edit_prod_cilindraje").value = celdas[5].innerText.trim();
+        document.getElementById("edit_prod_referencia").value = celdas[6].innerText.trim();
+        document.getElementById("edit_prod_descripcion").value = celdas[7].innerText.trim();
+        document.getElementById("edit_prod_ubicacion").value = celdas[8].innerText.trim();
+        document.getElementById("edit_prod_stock").value = celdas[9].innerText.trim();
+
+        let precio = celdas[10].innerText.replace(/\$/g, '').replace(/\./g, '').trim();
+        document.getElementById("edit_prod_precio").value = precio;
+
+        new bootstrap.Modal(document.getElementById('editarProductoModal')).show();
+    }
+
+    function abrirEliminar(id) {
+        document.getElementById("delete_productoId").value = id;
+        new bootstrap.Modal(document.getElementById('eliminarProductoModal')).show();
     }
 </script>
-
 
 </body>
 </html>

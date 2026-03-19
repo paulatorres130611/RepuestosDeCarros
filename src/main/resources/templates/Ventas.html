@@ -3,230 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar Venta</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
     <style>
-        .form-container {
-            background-color: #f8f9fa;
-            padding: 20px;
+        body {
+            background: linear-gradient(135deg, #f4f6f9, #e9edf2);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1f2937;
+        }
+
+        .topbar {
+            background: #111827;
+            padding: 14px 0;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .topbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            height: 58px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .brand-subtitle {
+            color: #9ca3af;
+            font-size: 0.88rem;
+            margin: 0;
+        }
+
+        .btn-home {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 18px rgba(22, 163, 74, 0.35);
+        }
+
+        .btn-home:hover {
+            color: white;
+            background: linear-gradient(135deg, #15803d, #166534);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .page-text {
+            color: #6b7280;
+        }
+
+        .card-custom {
+            background: rgba(255, 255, 255, 0.96);
+            border: none;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, #111827, #1f2937);
+            color: white;
+            padding: 18px 22px;
+        }
+
+        .card-body-custom {
+            padding: 24px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #16a34a;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            min-height: 48px;
+            border: 1px solid #d1d5db;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 0.2rem rgba(22, 163, 74, 0.15);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            min-height: 46px;
+            font-weight: 700;
+        }
+
+        .btn-green:hover {
+            color: white;
+            background: linear-gradient(135deg, #15803d, #166534);
+        }
+
+        .btn-danger-soft {
+            border: none;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 8px 12px;
+            font-size: 0.9rem;
         }
-        h3, h4 {
-            color: #495057;
-            font-weight: bold;
+
+        .table-modern thead th {
+            background-color: #f3f4f6;
+            color: #111827;
+            font-weight: 700;
+            white-space: nowrap;
         }
-        .btn-primary {
-            float: right;
+
+        .result-box {
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 14px;
+            margin-top: 6px;
+            max-height: 220px;
+            overflow-y: auto;
+            display: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .result-item {
+            padding: 12px 14px;
+            border-bottom: 1px solid #eef2f7;
+            cursor: pointer;
+        }
+
+        .result-item:hover {
+            background-color: #f0fdf4;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #f8fafc, #eef2f7);
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .info-card strong {
+            color: #111827;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #f8fafc, #eef2f7);
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 18px;
+        }
+
+        .summary-label {
+            color: #6b7280;
+            font-size: 0.92rem;
+            margin-bottom: 5px;
+        }
+
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #111827;
+            margin: 0;
+        }
+
+        .sticky-card {
+            position: sticky;
+            top: 20px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 28px 14px;
+            color: #6b7280;
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 991px) {
+            .sticky-card {
+                position: static;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="mt-3">
-        <a href="/vistaPrincipal" class="btn btn-primary"><i class="fas fa-home"></i>Menú Principal</a>
+
+<header class="topbar">
+    <div class="container">
+        <div class="topbar-content">
+            <div class="brand-box">
+                <img src="/img/logo.png" alt="Logo" class="brand-logo">
+                <div>
+                    <h1 class="brand-title">Autopartes El Sótano</h1>
+                    <p class="brand-subtitle">Sistema de gestión de ventas</p>
+                </div>
+            </div>
+
+            <a href="/vistaPrincipal" class="btn-home" title="Menú Principal">
+                <i class="fas fa-house"></i>
+            </a>
+        </div>
     </div>
+</header>
+
+<div class="container py-4">
+    <div class="mb-4">
+        <h2 class="page-title">Registrar Venta</h2>
+        <p class="page-text">Busca clientes y productos de forma rápida, agrega el precio negociado y guarda la venta.</p>
+    </div>
+
     <div class="row">
-        <!-- Bloques de mensajes -->
         <div class="col-12">
-            <div th:if="${mensaje}" class="alert alert-success">
+            <div th:if="${mensaje}" class="alert alert-success shadow-sm">
                 <span th:text="${mensaje}"></span>
             </div>
-            <div th:if="${error}" class="alert alert-danger">
+            <div th:if="${error}" class="alert alert-danger shadow-sm">
                 <span th:text="${error}"></span>
             </div>
         </div>
-        <!-- Parte Izquierda: Formulario -->
-        <div class="col-md-6">
-            <div class="form-container">
-                <h3>Registrar Venta</h3>
-                <!-- Barra de búsqueda del proveedor -->
-                <div class="input-group mb-3">
-                    <input type="text" id="nitCliente" name="nitCliente" class="form-control" placeholder="Ingrese el Nit o Cedula del cliente" th:value="${ClienteNit}">
-                    <button class="btn btn-primary" type="button" id="btnAutocompletar">Autocompletar</button>
-                </div>
-                <!-- Campo para mostrar el nombre del proveedor -->
-                <div class="mb-3">
-                    <label for="nombreCliente" class="form-label">Nombre del Cliente</label>
-                    <input type="text" id="nombreCliente" name="nombreCliente" class="form-control" placeholder="Nombre del cliente" readonly th:value="${clienteNombre}">
-                </div>
-                <!-- Fecha de la compra -->
-                <div class="mb-3">
-                    <label for="fechaVenta" class="form-label">Fecha de Venta</label>
-                    <input type="date" id="fechaVenta" name="fechaVenta" class="form-control" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+    </div>
 
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card-custom">
+                <div class="card-header-custom">
+                    <h4><i class="fas fa-file-invoice-dollar me-2"></i>Formulario de Venta</h4>
                 </div>
 
-                <!-- Detalles de la venta -->
-                <h4>Detalles de la Venta</h4>
+                <div class="card-body-custom">
+                    <div class="section-title">
+                        <i class="fas fa-user-check"></i>
+                        <span>Cliente</span>
+                    </div>
 
-                <!-- Búsqueda de Producto -->
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="nombre" class="form-label">Nombre del Producto</label>
-                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre" th:value="${nombre != null ? nombre : ''}">
+                    <div class="mb-3 position-relative">
+                        <label for="buscarCliente" class="form-label">Buscar cliente por nombre</label>
+                        <input type="text" id="buscarCliente" class="form-control" placeholder="Escriba el nombre del cliente">
+                        <div id="listaClientes" class="result-box"></div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="linea" class="form-label">Línea</label>
-                        <input type="text" id="linea" name="linea" class="form-control" placeholder="Ingrese la línea" th:value="${linea != null ? linea : ''}">
-                    </div>
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-primary" id="btnBuscarProducto">Buscar Producto</button>
 
+                    <div class="info-card mb-4">
+                        <div><strong>Cliente seleccionado:</strong> <span id="clienteSeleccionadoTexto">Ninguno</span></div>
                     </div>
-                </div>
 
-                <!-- Resultados de la búsqueda -->
-                <div class="mt-3">
-                    <label for="resultadoProductos" class="form-label">Productos Encontrados</label>
-                    <select id="resultadoProductos" name="productoSeleccionado" class="form-select">
-                        <option value="">Seleccione un producto</option>
-                        <!-- Mostrar los productos encontrados -->
-                        <option th:each="producto : ${productos}"
-                                th:value="${producto.prod_id}"
-                                th:text="|Modelo: ${producto.prod_modelo}, Cilindraje: ${producto.prod_cilindraje}, Referencia: ${producto.prod_referencia}, Descripción: ${producto.prod_descripcion}|">
-                        </option>
-                    </select>
-                </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label for="fechaVenta" class="form-label">Fecha de Venta</label>
+                            <input type="date" id="fechaVenta" name="fechaVenta" class="form-control"
+                                   th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+                        </div>
+                    </div>
 
-                <!-- Cantidad y Precio de Compra -->
-                <div class="row g-3 mt-3">
-                    <div class="col-md-6">
-                        <label for="cantidad" class="form-label">Cantidad</label>
-                        <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Cantidad" min="1">
+                    <div class="section-title">
+                        <i class="fas fa-boxes-stacked"></i>
+                        <span>Detalles de la Venta</span>
                     </div>
-                    <div class="col-md-6">
-                        <label for="precioVenta" class="form-label">Precio de Venta</label>
-                        <input type="number" id="precioVenta" name="precioVenta" class="form-control" placeholder="Precio de Venta" step="0.01">
+
+                    <div class="mb-3 position-relative">
+                        <label for="buscarProducto" class="form-label">Buscar producto</label>
+                        <input type="text" id="buscarProducto" class="form-control" placeholder="Escriba nombre, línea, referencia o descripción">
+                        <div id="listaProductos" class="result-box"></div>
                     </div>
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-success w-100" id="btnAgregarProducto">Agregar Producto</button>
+
+                    <div class="info-card mb-3">
+                        <div class="mb-2"><strong>Producto seleccionado:</strong> <span id="productoSeleccionadoTexto">Ninguno</span></div>
+                        <div class="mb-2"><strong>Stock disponible:</strong> <span id="stockDisponible">0</span></div>
+                        <div><strong>Precio inventario:</strong> <span id="precioInventarioTexto">$0</span></div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" id="cantidad" class="form-control" placeholder="Cantidad" min="1">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="precioVenta" class="form-label">Precio real de venta</label>
+                            <input type="number" id="precioVenta" class="form-control" placeholder="Ej: 150000" step="0.01">
+                        </div>
+
+                        <div class="col-12">
+                            <button type="button" class="btn btn-green w-100" id="btnAgregarProducto">
+                                <i class="fas fa-cart-plus me-2"></i>Agregar Producto
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Parte Derecha: Tabla de Productos -->
-        <div class="col-md-6">
-            <div class="form-container">
-                <h4>Productos Agregados</h4>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Línea</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Subtotal</th>
-                        <th>Acción</th>
-                    </tr>
-                    </thead>
-                    <tbody id="productosTable">
-                    <tr th:each="producto : ${productosAgregados}">
-                        <td th:text="${producto.nombre}">Nombre</td>
-                        <td th:text="${producto.linea}">Línea</td>
-                        <td th:text="${producto.cantidad}">Cantidad</td>
-                        <td th:text="${producto.precio}">Precio</td>
-                        <td th:text="${producto.subtotal}">Subtotal</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm" th:onclick="|eliminarProducto(${producto.id})|">Eliminar</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <!-- Total -->
-                <div class="mt-3">
-                    <label for="totalVenta" class="form-label">Total de la Venta</label>
-                    <input type="text" id="totalVenta" name="totalVenta" class="form-control" th:value="${totalVenta}" readonly>
+        <div class="col-lg-5">
+            <div class="sticky-card">
+                <div class="card-custom">
+                    <div class="card-header-custom">
+                        <h5><i class="fas fa-receipt me-2"></i>Resumen de la Venta</h5>
+                    </div>
+
+                    <div class="card-body-custom">
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <div class="summary-box">
+                                    <div class="summary-label">Productos agregados</div>
+                                    <p class="summary-value" id="cantidadProductos">0</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="summary-box">
+                                    <div class="summary-label">Total venta</div>
+                                    <p class="summary-value" id="totalVentaVista">$0</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-modern align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cant.</th>
+                                    <th>Precio venta</th>
+                                    <th>Subtotal</th>
+                                    <th>Acción</th>
+                                </tr>
+                                </thead>
+                                <tbody id="productosTable"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="emptyState" class="empty-state">
+                            <i class="fas fa-cart-shopping"></i>
+                            <div>No has agregado productos todavía.</div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="totalVenta" class="form-label">Total de la Venta</label>
+                            <input type="text" id="totalVenta" class="form-control" readonly>
+                        </div>
+
+                        <form th:action="@{/ventas/guardar}" method="post" class="mt-4" id="formGuardarVenta">
+                            <input type="hidden" name="clienteId" id="clienteId">
+                            <input type="hidden" name="detalles" id="detalles">
+                            <input type="hidden" name="fechaVenta" id="hiddenFechaVenta">
+
+                            <button class="btn btn-green w-100" type="submit">
+                                <i class="fas fa-floppy-disk me-2"></i>Guardar Venta
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <!-- Botón Guardar -->
-                <form th:action="@{/ventas/guardar}" method="post">
-                    <input type="hidden" name="clienteId" id="clienteId" value="">
-                    <input type="hidden" name="detalles" id="detalles" value="">
-                    <input type="hidden" name="fechaVenta" id="hiddenFechaVenta" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
-                    <button class="btn btn-primary mt-3 w-100" type="submit">Guardar Venta</button>
-                </form>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Lógica para manejar productos en la tabla
-    let productos = [];
+    let clienteSeleccionado = null;
+    let productoSeleccionado = null;
+    let productosVenta = [];
     let totalVenta = 0;
-    document.getElementById("btnBuscarProducto").addEventListener("click", () => {
-        const nombre = document.getElementById("nombre").value.trim();
-        const linea = document.getElementById("linea").value.trim();
+    let timeoutCliente = null;
+    let timeoutProducto = null;
 
-        if (!nombre || !linea) {
-            alert("Por favor, complete los campos de Nombre del Producto y Línea para buscar.");
+    function formatearMoneda(valor) {
+        return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0
+        }).format(valor || 0);
+    }
+
+    function actualizarResumenVisual() {
+        document.getElementById("cantidadProductos").textContent = productosVenta.length;
+        document.getElementById("totalVentaVista").textContent = formatearMoneda(totalVenta);
+        document.getElementById("totalVenta").value = formatearMoneda(totalVenta);
+
+        const emptyState = document.getElementById("emptyState");
+        emptyState.style.display = productosVenta.length === 0 ? "block" : "none";
+    }
+
+    function actualizarTabla() {
+        const tbody = document.getElementById("productosTable");
+        tbody.innerHTML = "";
+
+        productosVenta.forEach((producto, index) => {
+            const row = `
+                <tr>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.cantidad}</td>
+                    <td>${formatearMoneda(producto.precioVenta)}</td>
+                    <td>${formatearMoneda(producto.subtotal)}</td>
+                    <td>
+                        <button type="button" class="btn-danger-soft btn-sm" onclick="eliminarProducto(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        actualizarResumenVisual();
+    }
+
+    function eliminarProducto(index) {
+        totalVenta -= productosVenta[index].subtotal;
+        productosVenta.splice(index, 1);
+        actualizarTabla();
+    }
+
+    // BUSCAR CLIENTES EN TIEMPO REAL
+    document.getElementById("buscarCliente").addEventListener("input", function () {
+        const texto = this.value.trim();
+        const lista = document.getElementById("listaClientes");
+
+        clearTimeout(timeoutCliente);
+
+        if (texto.length < 2) {
+            lista.style.display = "none";
+            lista.innerHTML = "";
             return;
         }
 
-        fetch(`/buscar-productos?nombre=${encodeURIComponent(nombre)}&linea=${encodeURIComponent(linea)}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error al buscar productos. Verifique los datos ingresados.");
-                }
-                return response.json();
-            })
-            .then(productos => {
-                const select = document.getElementById("resultadoProductos");
-                select.innerHTML = `<option value="">Seleccione un producto</option>`;
-                productos.forEach(producto => {
-                    const option = document.createElement("option");
-                    option.value = producto.prod_id;
-                    option.text = `${producto.prod_modelo} - ${producto.prod_cilindraje} - ${producto.prod_referencia} - ${producto.prod_descripcion}`;
-                    select.appendChild(option);
+        timeoutCliente = setTimeout(() => {
+            fetch(`/clientes/buscar?nombre=${encodeURIComponent(texto)}`)
+                .then(response => response.json())
+                .then(clientes => {
+                    lista.innerHTML = "";
+
+                    if (!clientes || clientes.length === 0) {
+                        lista.innerHTML = `<div class="result-item">No se encontraron clientes</div>`;
+                        lista.style.display = "block";
+                        return;
+                    }
+
+                    clientes.forEach(cliente => {
+                        const item = document.createElement("div");
+                        item.className = "result-item";
+                        item.textContent = `${cliente.nombre} - ${cliente.nit || ''}`;
+                        item.onclick = () => seleccionarCliente(cliente);
+                        lista.appendChild(item);
+                    });
+
+                    lista.style.display = "block";
+                })
+                .catch(() => {
+                    lista.innerHTML = `<div class="result-item">Error al buscar clientes</div>`;
+                    lista.style.display = "block";
                 });
-            })
-            .catch(error => {
-                console.error(error.message);
-                alert("Hubo un problema al buscar productos. Inténtelo nuevamente.");
-            });
+        }, 300);
     });
-    document.querySelector('form').addEventListener('submit', (event) => {
-        const nitCliente = document.getElementById("nitCliente").value.trim(); // Asegúrate de que este ID sea correcto
-        if (!nitCliente) {
-            alert("Por favor, agregue un cliente antes de guardar la venta.");
-            event.preventDefault();
-            return;
-        }
-        if (productos.length === 0) {
-            alert("Debe agregar al menos un producto antes de guardar la venta.");
-            event.preventDefault();
+
+    function seleccionarCliente(cliente) {
+        clienteSeleccionado = cliente;
+        document.getElementById("buscarCliente").value = cliente.nombre;
+        document.getElementById("clienteSeleccionadoTexto").textContent = `${cliente.nombre} (${cliente.nit || ''})`;
+        document.getElementById("clienteId").value = cliente.id;
+        document.getElementById("listaClientes").style.display = "none";
+    }
+
+    // BUSCAR PRODUCTOS EN TIEMPO REAL
+    document.getElementById("buscarProducto").addEventListener("input", function () {
+        const texto = this.value.trim();
+        const lista = document.getElementById("listaProductos");
+
+        clearTimeout(timeoutProducto);
+
+        if (texto.length < 2) {
+            lista.style.display = "none";
+            lista.innerHTML = "";
             return;
         }
 
-        const detallesInput = document.getElementById("detalles");
-        const detalles = productos.map(producto => `${producto.id},${producto.cantidad},${producto.precioVenta}`).join(';');
-        detallesInput.value = detalles;
+        timeoutProducto = setTimeout(() => {
+            fetch(`/productos/buscar?term=${encodeURIComponent(texto)}`)
+                .then(response => response.json())
+                .then(productos => {
+                    lista.innerHTML = "";
+
+                    if (!productos || productos.length === 0) {
+                        lista.innerHTML = `<div class="result-item">No se encontraron productos</div>`;
+                        lista.style.display = "block";
+                        return;
+                    }
+
+                    productos.forEach(producto => {
+                        const item = document.createElement("div");
+                        item.className = "result-item";
+                        item.innerHTML = `
+                            <strong>${producto.nombre}</strong><br>
+                            <small>${producto.linea || ''} ${producto.descripcion ? '- ' + producto.descripcion : ''}</small><br>
+                            <small>Stock: ${producto.stock} | Precio inventario: ${formatearMoneda(producto.precioInventario)}</small>
+                        `;
+                        item.onclick = () => seleccionarProducto(producto);
+                        lista.appendChild(item);
+                    });
+
+                    lista.style.display = "block";
+                })
+                .catch(() => {
+                    lista.innerHTML = `<div class="result-item">Error al buscar productos</div>`;
+                    lista.style.display = "block";
+                });
+        }, 300);
     });
+
+    function seleccionarProducto(producto) {
+        productoSeleccionado = producto;
+
+        document.getElementById("buscarProducto").value = producto.nombre;
+        document.getElementById("productoSeleccionadoTexto").textContent =
+            `${producto.nombre} ${producto.linea ? '- ' + producto.linea : ''}`;
+        document.getElementById("stockDisponible").textContent = producto.stock ?? 0;
+        document.getElementById("precioInventarioTexto").textContent = formatearMoneda(producto.precioInventario);
+
+        document.getElementById("listaProductos").style.display = "none";
+    }
 
     document.getElementById("btnAgregarProducto").addEventListener("click", () => {
-        const productoId = document.getElementById("resultadoProductos").value;
         const cantidad = parseInt(document.getElementById("cantidad").value);
         const precioVenta = parseFloat(document.getElementById("precioVenta").value);
 
-        if (!productoId || !cantidad || !precioVenta) {
-            alert("Por favor, seleccione un producto y complete todos los campos antes de agregar.");
+        if (!productoSeleccionado) {
+            alert("Primero debes seleccionar un producto.");
             return;
         }
 
+        if (!cantidad || cantidad <= 0) {
+            alert("Ingrese una cantidad válida.");
+            return;
+        }
 
-        const nombre = document.getElementById("nombre").value.trim();
-        const linea = document.getElementById("linea").value.trim();
+        if (!precioVenta || precioVenta <= 0) {
+            alert("Ingrese un precio de venta válido.");
+            return;
+        }
+
+        if (cantidad > productoSeleccionado.stock) {
+            alert("La cantidad supera el stock disponible.");
+            return;
+        }
+
         const subtotal = cantidad * precioVenta;
         totalVenta += subtotal;
 
-        // Agregar los datos al array productos
-        productos.push({
-            id: productoId,
-            nombre: nombre, // Solo el nombre
-            linea: linea, // Línea ingresada
+        productosVenta.push({
+            id: productoSeleccionado.id,
+            nombre: productoSeleccionado.nombre,
             cantidad: cantidad,
             precioVenta: precioVenta,
             subtotal: subtotal
@@ -234,71 +613,38 @@
 
         actualizarTabla();
 
-        // Limpiar los campos
-        document.getElementById("cantidad").value = '';
-        document.getElementById("precioVenta").value = '';
-        document.getElementById("resultadoProductos").value = '';
-        document.getElementById("linea").value = '';
+        document.getElementById("buscarProducto").value = "";
+        document.getElementById("cantidad").value = "";
+        document.getElementById("precioVenta").value = "";
+        document.getElementById("productoSeleccionadoTexto").textContent = "Ninguno";
+        document.getElementById("stockDisponible").textContent = "0";
+        document.getElementById("precioInventarioTexto").textContent = "$0";
+        productoSeleccionado = null;
     });
 
-
-    function actualizarTabla() {
-        const tbody = document.getElementById("productosTable");
-        tbody.innerHTML = ""; // Limpiar tabla
-        productos.forEach((producto, index) => {
-            const row = `
-        <tr>
-            <td>${producto.nombre}</td> <!-- Mostrar solo el nombre -->
-            <td>${producto.linea}</td> <!-- Mostrar la línea -->
-            <td>${producto.cantidad}</td> <!-- Cantidad -->
-            <td>${producto.precioVenta.toFixed(2)}</td> <!-- Precio -->
-            <td>${producto.subtotal.toFixed(2)}</td> <!-- Subtotal -->
-            <td>
-                <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
-            </td>
-        </tr>
-        `;
-            tbody.innerHTML += row;
-        });
-
-        // Actualizar el total de la compra
-        document.getElementById("totalVenta").value = totalVenta.toFixed(2);
-    }
-
-    function eliminarProducto(index) {
-        totalVenta -= productos[index].subtotal;
-        productos.splice(index, 1);
-        actualizarTabla();
-    }
-
-
-    // Script para autocompletar el proveedor
-    document.getElementById("btnAutocompletar").addEventListener("click", () => {
-        const nitCliente = document.getElementById("nitCliente").value;
-
-        if (!nitCliente) {
-            alert("Por favor, ingrese el NIT del proveedor.");
+    document.getElementById("formGuardarVenta").addEventListener("submit", function (event) {
+        if (!clienteSeleccionado) {
+            alert("Debes seleccionar un cliente.");
+            event.preventDefault();
             return;
         }
 
-        fetch(`/clientes/autocompletar?nit=${nitCliente}`)
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                } else {
-                    throw new Error("Cliente no encontrado.");
-                }
-            })
-            .then(nombreCliente => {
-                document.getElementById("nombreCliente").value = nombreCliente;
-                document.getElementById("clienteId").value = nitCliente; // Actualiza el campo oculto
-            })
-            .catch(error => {
-                alert(error.message);
-                document.getElementById("nombreCliente").value = "";
-                document.getElementById("clienteId").value = ""; // Limpia el campo oculto
-            });
+        if (productosVenta.length === 0) {
+            alert("Debes agregar al menos un producto.");
+            event.preventDefault();
+            return;
+        }
+
+        document.getElementById("hiddenFechaVenta").value = document.getElementById("fechaVenta").value;
+
+        const detalles = productosVenta
+            .map(p => `${p.id},${p.cantidad},${p.precioVenta}`)
+            .join(";");
+
+        document.getElementById("detalles").value = detalles;
     });
+
+    actualizarResumenVisual();
 </script>
 </body>
 </html>

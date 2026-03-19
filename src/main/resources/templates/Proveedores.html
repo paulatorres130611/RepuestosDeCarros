@@ -1,177 +1,546 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Gestion de Proveedores</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proveedores | Autopartes El Sótano</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(180deg, #f3f6f4 0%, #e8edf0 100%);
+        color: #1f2937;
+    }
+
+    .dark-header {
+        background: #0f172a;
+        border-radius: 20px;
+        padding: 18px 22px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .dark-header .page-title {
+        color: #22c55e;
+        font-size: 2rem;
+        font-weight: 900;
+        letter-spacing: 2px;
+    }
+
+    .btn-home-icon {
+        background: #22c55e;
+        color: #0f172a;
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+
+    .btn-home-icon:hover {
+        background: #16a34a;
+        transform: scale(1.08);
+        color: #0f172a;
+    }
+
+    .main-wrapper {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 24px 20px 40px;
+    }
+
+    .top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+    }
+
+    .logo-img {
+        width: 120px;
+        height: 70px;
+        object-fit: contain;
+        border-radius: 12px;
+        padding: 6px;
+        background: #111827;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+        transition: 0.3s ease;
+    }
+
+    .logo-img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(34,197,94,0.4);
+    }
+
+    .page-title {
+        margin: 0;
+        color: #2f7d32;
+        font-size: 2rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .custom-alert {
+        background: #e8f8ee;
+        border: 1px solid #b7e4c7;
+        color: #1b5e20;
+        border-radius: 14px;
+        padding: 14px 18px;
+        margin-bottom: 20px;
+    }
+
+    .search-card,
+    .table-card {
+        background: #ffffff;
+        border: 1px solid #dbe3e8;
+        border-radius: 20px;
+        padding: 18px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 12px 14px;
+        border: 1px solid #cfd8df;
+    }
+
+    .form-control:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.15);
+    }
+
+    .table-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+    }
+
+    .toolbar-left {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        border: none;
+        border-radius: 12px;
+        padding: 11px 18px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.25s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .action-btn i {
+        margin-right: 8px;
+    }
+
+    .btn-green {
+        background: #2f7d32;
+        color: #ffffff;
+    }
+
+    .btn-green:hover {
+        background: #256628;
+        color: #ffffff;
+    }
+
+    .table-scroll {
+        max-height: 420px;
+        overflow-y: auto;
+        overflow-x: auto;
+        border: 1px solid #dfe5ea;
+        border-radius: 16px;
+    }
+
+    .table-scroll::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb {
+        background: #b8c2cc;
+        border-radius: 10px;
+    }
+
+    .table-scroll::-webkit-scrollbar-track {
+        background: #eef2f5;
+    }
+
+    .custom-table {
+        margin: 0;
+        min-width: 1000px;
+        background: #ffffff;
+        color: #212529;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .custom-table thead th {
+        background: #1f2937;
+        color: #ffffff;
+        font-size: 0.92rem;
+        border: none;
+        padding: 14px 12px;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        text-align: center;
+    }
+
+    .custom-table tbody tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    .custom-table tbody tr:nth-child(even) {
+        background-color: #f4fbf4;
+    }
+
+    .custom-table tbody tr:hover {
+        background-color: #e8f5e9 !important;
+        transition: 0.2s;
+    }
+
+    .custom-table td {
+        color: #212529;
+        border-color: #dee2e6;
+        vertical-align: middle;
+        font-size: 0.93rem;
+        padding: 12px;
+    }
+
+    .empty-state {
+        text-align: center;
+        color: #495057;
+        padding: 16px;
+        font-weight: 600;
+    }
+
+    .modal-header {
+        background: #f8fafc;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .modal-title {
+        color: #2f7d32;
+        font-weight: 800;
+    }
+
+    .modal-content {
+        border-radius: 18px;
+        border: none;
+        box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    }
+
+    .save-btn {
+        background: #2f7d32;
+        border: none;
+        color: #ffffff;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 700;
+    }
+
+    .save-btn:hover {
+        background: #256628;
+        color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 1.55rem;
+        }
+
+        .logo-img {
+            width: 58px;
+            height: 58px;
+        }
+
+        .table-toolbar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .toolbar-left {
+            flex-direction: column;
+        }
+
+        .action-btn {
+            width: 100%;
+        }
+    }
+  </style>
 </head>
 <body>
-  <div class="container mt-5">
-    <div class="mt-3">
-      <a href="/vistaPrincipal" class="btn btn-primary"><i class="fas fa-home"></i>Menú Principal</a>
+
+<div class="main-wrapper">
+
+  <div class="top-header dark-header">
+    <div class="header-left">
+      <img th:src="@{/images/logo.png}" class="logo-img">
+      <h1 class="page-title">GESTIÓN DE PROVEEDORES</h1>
     </div>
-    <div th:if="${mensaje}" class="alert alert-success" role="alert">
-      <span th:text="${mensaje}"></span>
-    </div>
-    <h1 class="text-center mb-4">Gestion de Proveedores</h1>
-    <div class="row">
-      <div class="col-md-3">
-        <div class="d-flex flex-column align-items-start">
 
-          <a th:href="@{/proveedores/crear}" class="btn btn-info mb-5 btn-lg mb-3">
-            <i class="fas fa-plus-circle"></i>Crear Proveedor
-          </a>
+    <a href="/vistaPrincipal" class="btn-home-icon">
+      <i class="fas fa-home"></i>
+    </a>
+  </div>
 
-          <a href="#" id="editarButton" class="btn btn-info mb-5 btn-lg mb-3" disabled>
-            <i class="fas fa-edit"></i>Editar Proveedor
-          </a>
+  <div th:if="${mensaje}" class="custom-alert" role="alert">
+    <i class="fas fa-circle-check me-2"></i>
+    <span th:text="${mensaje}"></span>
+  </div>
 
-          <a href="#" id="eliminarButton" class="btn btn-danger mb-5 btn-lg mb-3" th:attr="disable=${proveedorSeleccionadoId == null}">
-            <i class="fas fa-trash-alt"></i>Eliminar Proveedor
-          </a>
+  <div class="search-card">
+    <input type="text"
+           id="buscador"
+           class="form-control"
+           placeholder="Buscar por RUT, nombre, teléfono, dirección o correo..."
+           onkeyup="filtrarTabla()">
+  </div>
 
-        </div>
-      </div>
-      <!--formularios crear editar eliminar 9de12-->
-      <div class="col-md-9">
-        <!--formulario crearproveedor-->
-        <div id="formularioCrearProveedor" th:if="${mostrarFormularioCrearProveedor}">
-          <h4>Crear Proveedor</h4>
-          <form th:action="@{/proveedores/crear}" th:method="post" th:object="${proveedor}">
-
-            <div class="mb-3">
-              <label for="prov_rut" class="form-label">Rut</label>
-              <input type="number" class="form-control" id="prov_rut" th:field="*{prov_rut}" required></input>
-            </div>
-
-            <div class="mb-3">
-              <label for="prov_nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="prov_nombre" th:field="*{prov_nombre}" required></input>
-            </div>
-
-            <div class="mb-3">
-              <label for="prov_telefono" class="form-label">Telefono</label>
-              <input type="text" class="form-control" id="prov_telefono" th:field="*{prov_telefono}" required></input>
-            </div>
-
-            <div class="mb-3">
-              <label for="prov_direccion" class="form-label">Direccion</label>
-              <input type="text" class="form-control" id="prov_direccion" th:field="*{prov_direccion}" required></input>
-            </div>
-
-            <div class="mb-3">
-              <label for="prov_correo" class="form-label">Correo</label>
-              <input type="text" class="form-control" id="prov_correo" th:field="*{prov_correo}" required></input>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </form>
-        </div>
-
-        <div id="formularioEditarProveedor" th:if="${mostrarFormularioEditarProveedor}">
-          <h5>Editar Proveedor</h5>
-          <form th:action="@{/proveedores/editar}" th:method="post" th:object="${proveedorSeleccionado}">
-            <input type="hidden" th:field="*{prov_rut}">
-
-            <div class="mb-3">
-              <label for="editarrutproveedor" class="form-label">Rut</label>
-              <input type="text" class="form-control" id="editarrutproveedor" th:field="*{prov_rut}" readonly>
-            </div>
-
-            <div class="mb-3">
-              <label for="editarnombreproveedor" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="editarnombreproveedor" th:field="*{prov_nombre}" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="editartelefonoproveedor" class="form-label">Telefono</label>
-              <input type="text" class="form-control" id="editartelefonoproveedor" th:field="*{prov_telefono}" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="editardireccionproveedor" class="form-label">Direccion</label>
-              <input type="text" class="form-control" id="editardireccionproveedor" th:field="*{prov_direccion}" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="editarcorreoproveedor" class="form-label">Correo</label>
-              <input type="text" class="form-control" id="editarcorreoproveedor" th:field="*{prov_correo}" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-          </form>
-        </div>
-
-        <!-- ventana eliminarproveedor -->
-        <div th:if="${mostrarConfirmacionEliminarProveedor}">
-          <h5>¿Está seguro de que desea eliminar este proveedor?</h5>
-          <form th:action="@{/proveedores/eliminar}" th:method="post">
-            <input type="hidden" name="proveedorId" th:value="${proveedorId}">
-            <button type="submit" class="btn btn-danger">Eliminar</button>
-            <a href="#" class="btn btn-secondary" th:onclick="|location.href='@{/proveedores}'|">Cancelar</a>
-          </form>
-        </div>
+  <div class="table-card">
+    <div class="table-toolbar">
+      <div class="toolbar-left">
+        <button type="button" class="action-btn btn-green" data-bs-toggle="modal" data-bs-target="#crearProveedorModal">
+          <i class="fas fa-plus-circle"></i>Crear Proveedor
+        </button>
       </div>
     </div>
 
-    <!--parte inferior-->
-    <div class="mt-5">
-      <!--barra de busqueda-->
-      <form th:action="@{/proveedores/buscar}" method="get">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Buscar por Nombre o Rut"
-                  th:value="${criterioBusquedaProveedor}" name="criterioBusquedaProveedor">
-          <button class="btn btn-primary" type="submit">
-            <i class="fas fa-search"></i>Buscar
-          </button>
-        </div>
-      </form>
-      <!--Lista de Proveedores-->
-      <table class="table table-striped">
+    <div class="table-scroll">
+      <table class="table custom-table align-middle" id="tablaProveedores">
         <thead>
-          <tr>
-            <th>Seleccionar</th>
-            <th>Rut</th>
-            <th>Nombre</th>
-            <th>Telefono</th>
-            <th>Direccion</th>
-            <th>Correo</th>
-          </tr>
+        <tr>
+          <th>RUT</th>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Dirección</th>
+          <th>Correo</th>
+          <th>Acciones</th>
+        </tr>
         </thead>
+
         <tbody>
-          <tr th:each="proveedor : ${proveedores}">
-            <td>
-            <input type="checkbox" th:data-rut="${proveedor.prov_rut}" onclick="seleccionarProveedor(this.getAttribute('data-rut'))">
-            </td>
-            <td th:text="${proveedor.prov_rut}"></td>
-            <td th:text="${proveedor.prov_nombre}"></td>
-            <td th:text="${proveedor.prov_telefono}"></td>
-            <td th:text="${proveedor.prov_direccion}"></td>
-            <td th:text="${proveedor.prov_correo}"></td>
-          </tr>
+        <tr th:each="proveedor : ${proveedores}">
+          <td th:text="${proveedor.prov_rut}"></td>
+          <td th:text="${proveedor.prov_nombre}"></td>
+          <td th:text="${proveedor.prov_telefono}"></td>
+          <td th:text="${proveedor.prov_direccion}"></td>
+          <td th:text="${proveedor.prov_correo}"></td>
+          <td>
+            <button type="button" class="btn btn-sm btn-dark me-1" onclick="abrirEditar(this)">
+              <i class="fas fa-edit"></i>
+            </button>
+
+            <button type="button" class="btn btn-sm btn-danger" th:onclick="|abrirEliminar(${proveedor.prov_rut})|">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(proveedores)}">
+          <td colspan="6" class="empty-state">No hay proveedores registrados.</td>
+        </tr>
         </tbody>
       </table>
     </div>
   </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGz1PoqLzYjUrw6Up8zjUL9d5IpVVvg6Vrdp9B8O7N9c2" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-wQ1mZ6ywI9ZPAmW2JvM5PeRWE5yk5TLZZ6bN5dvAuU6pZ7I3UwJREpwaWtrD9D1y" crossorigin="anonymous"></script>6
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<!-- MODAL CREAR -->
+<div class="modal fade" id="crearProveedorModal" tabindex="-1" aria-labelledby="crearProveedorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form th:action="@{/proveedores/crear}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crearProveedorModalLabel">Crear Proveedor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
 
-  <script>
-    let proveedorSeleccionadoId = null;
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="prov_rut" class="form-label">RUT</label>
+              <input type="number" class="form-control" id="prov_rut" name="prov_rut" required>
+            </div>
 
-    function seleccionarProveedor(id) {
-      proveedorSeleccionadoId = id;
-      const editarButton = document.getElementById("editarButton");
-      const eliminarButton = document.getElementById("eliminarButton");
+            <div class="col-md-6">
+              <label for="prov_nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="prov_nombre" name="prov_nombre" required>
+            </div>
 
-      editarButton.disabled = false;
-      eliminarButton.disabled = false;
+            <div class="col-md-6">
+              <label for="prov_telefono" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" id="prov_telefono" name="prov_telefono" required>
+            </div>
 
-      editarButton.href = `/proveedores/editar/${proveedorSeleccionadoId}`;
-      eliminarButton.href = `/proveedores/eliminar/${proveedorSeleccionadoId}`;
-    }
-  </script>
+            <div class="col-md-6">
+              <label for="prov_direccion" class="form-label">Dirección</label>
+              <input type="text" class="form-control" id="prov_direccion" name="prov_direccion" required>
+            </div>
+
+            <div class="col-md-12">
+              <label for="prov_correo" class="form-label">Correo</label>
+              <input type="email" class="form-control" id="prov_correo" name="prov_correo" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="save-btn">
+            <i class="fas fa-save me-2"></i>Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR -->
+<div class="modal fade" id="editarProveedorModal" tabindex="-1" aria-labelledby="editarProveedorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form th:action="@{/proveedores/editar}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarProveedorModalLabel">Editar Proveedor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="prov_rut" id="edit_prov_rut_hidden">
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="edit_prov_rut" class="form-label">RUT</label>
+              <input type="text" class="form-control" id="edit_prov_rut" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label for="edit_prov_nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" name="prov_nombre" id="edit_prov_nombre" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="edit_prov_telefono" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" name="prov_telefono" id="edit_prov_telefono" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="edit_prov_direccion" class="form-label">Dirección</label>
+              <input type="text" class="form-control" name="prov_direccion" id="edit_prov_direccion" required>
+            </div>
+
+            <div class="col-md-12">
+              <label for="edit_prov_correo" class="form-label">Correo</label>
+              <input type="email" class="form-control" name="prov_correo" id="edit_prov_correo" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="save-btn">
+            <i class="fas fa-save me-2"></i>Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ELIMINAR -->
+<div class="modal fade" id="eliminarProveedorModal" tabindex="-1" aria-labelledby="eliminarProveedorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form th:action="@{/proveedores/eliminar}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="eliminarProveedorModalLabel">Eliminar Proveedor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="proveedorId" id="delete_proveedorId">
+          <p class="mb-0">¿Está seguro de que desea eliminar este proveedor?</p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash-alt me-2"></i>Eliminar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+<script>
+  function filtrarTabla() {
+      let input = document.getElementById("buscador");
+      let filtro = input.value.toLowerCase();
+      let filas = document.querySelectorAll("#tablaProveedores tbody tr");
+
+      filas.forEach(fila => {
+          let texto = fila.innerText.toLowerCase();
+          fila.style.display = texto.includes(filtro) ? "" : "none";
+      });
+  }
+
+  function abrirEditar(btn) {
+      let fila = btn.closest("tr");
+      let celdas = fila.querySelectorAll("td");
+
+      document.getElementById("edit_prov_rut_hidden").value = celdas[0].innerText.trim();
+      document.getElementById("edit_prov_rut").value = celdas[0].innerText.trim();
+      document.getElementById("edit_prov_nombre").value = celdas[1].innerText.trim();
+      document.getElementById("edit_prov_telefono").value = celdas[2].innerText.trim();
+      document.getElementById("edit_prov_direccion").value = celdas[3].innerText.trim();
+      document.getElementById("edit_prov_correo").value = celdas[4].innerText.trim();
+
+      new bootstrap.Modal(document.getElementById('editarProveedorModal')).show();
+  }
+
+  function abrirEliminar(id) {
+      document.getElementById("delete_proveedorId").value = id;
+      new bootstrap.Modal(document.getElementById('eliminarProveedorModal')).show();
+  }
+</script>
+
 </body>
 </html>

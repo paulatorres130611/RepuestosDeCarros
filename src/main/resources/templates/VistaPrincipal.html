@@ -1,104 +1,322 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-  <title>Sistema de Inventario de Repuestos de Carros</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autopartes El Sótano</title>
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
-    /* Fondo general de la página */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #f5f5dc;
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: #ffffff;
+      background:
+        radial-gradient(circle at top center, rgba(142, 255, 56, 0.12), transparent 18%),
+        radial-gradient(circle at bottom right, rgba(142, 255, 56, 0.08), transparent 20%),
+        linear-gradient(180deg, #030303 0%, #0b0b0b 45%, #14181d 100%);
+      position: relative;
+      overflow-x: hidden;
     }
 
-    /* Estilo de las tarjetas */
-    .card-hover {
-      background-color: #d1e7ff;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      opacity: 0.25;
     }
 
-    .card-hover:hover {
-      transform: scale(1.05); /* Agranda la cajita */
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra */
-      cursor: pointer; /* Cambia el cursor a una mano */
+    .main-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 38px 24px 55px;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Estilo del título de las tarjetas */
-    .card-title {
-      color: #004085; /* Azul más oscuro para contraste */
+    .hero-section {
+      text-align: center;
+      margin-bottom: 42px;
+      padding: 10px 0 5px;
     }
 
-    /* Colores de los iconos */
-    .icon i {
-      transition: color 0.3s ease, transform 0.3s ease; /* Transición de color y tamaño */
+    .logo-frame {
+      display: inline-block;
+      padding: 16px;
+      border-radius: 30px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(142,255,56,0.30);
+      box-shadow:
+        0 0 0 1px rgba(142,255,56,0.06),
+        0 18px 50px rgba(0,0,0,0.55),
+        0 0 28px rgba(142,255,56,0.10),
+        inset 0 0 18px rgba(142,255,56,0.06);
+      margin-bottom: 22px;
+      animation: glowPulse 3s ease-in-out infinite;
     }
 
-    .icon-productos i { color: #ff6f61; } /* Color rojo suave para Productos */
-    .icon-proveedores i { color: #ffb74d; } /* Color naranja para Proveedores */
-    .icon-clientes i { color: #4db6ac; } /* Color verde azulado para Clientes */
-    .icon-ventas i { color: #7986cb; } /* Color azul morado para Ventas */
-    .icon-compras i { color: #aed581; } /* Color verde claro para Compras */
-
-    .card-hover:hover .icon i {
-      transform: scale(1.2); /* Agranda el icono al hacer hover */
+    .logo-img {
+      width: 250px;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 22px;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(142,255,56,0.12));
     }
 
-    /* Estilo del título principal */
-    .main-title {
-      color: #003366; /* Azul oscuro para que combine con los iconos */
-      font-weight: bold; /* Negrilla */
+    .brand-title {
+      margin: 0;
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #9dff4f;
+      text-shadow:
+        0 0 8px rgba(157,255,79,0.20),
+        0 0 20px rgba(157,255,79,0.10);
+    }
+
+    .brand-line {
+      width: 180px;
+      height: 4px;
+      margin: 14px auto 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, #8eff38, transparent);
+      box-shadow: 0 0 14px rgba(142,255,56,0.35);
+    }
+
+    .dashboard-box {
+      background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 30px;
+      padding: 34px 28px;
+      backdrop-filter: blur(10px);
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.32),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .section-title {
+      color: #ffffff;
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 26px;
+      text-align: center;
+      letter-spacing: 0.6px;
+    }
+
+    .menu-card {
+      display: block;
+      text-decoration: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.045));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 28px 22px;
+      height: 100%;
+      transition: all 0.30s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255,255,255,0.08) 50%,
+        transparent 100%
+      );
+      transition: all 0.6s ease;
+    }
+
+    .menu-card:hover::before {
+      left: 120%;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: rgba(142,255,56,0.55);
+      box-shadow:
+        0 18px 35px rgba(0,0,0,0.30),
+        0 0 22px rgba(142,255,56,0.08);
+    }
+
+    .menu-icon {
+      width: 82px;
+      height: 82px;
+      border-radius: 24px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 2rem;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.18),
+        0 10px 20px rgba(0,0,0,0.18);
+    }
+
+    .icon-productos {
+      background: linear-gradient(135deg, #1f1f1f, #555555);
+    }
+
+    .icon-proveedores {
+      background: linear-gradient(135deg, #5c646d, #939aa3);
+    }
+
+    .icon-clientes {
+      background: linear-gradient(135deg, #256f24, #8eff38);
+    }
+
+    .icon-ventas {
+      background: linear-gradient(135deg, #0f5132, #20c997);
+    }
+
+    .icon-compras {
+      background: linear-gradient(135deg, #4c5258, #adb5bd);
+    }
+
+    .menu-title {
+      text-align: center;
+      color: #ffffff;
+      font-size: 1.22rem;
+      font-weight: 800;
+      margin-bottom: 9px;
+      letter-spacing: 0.3px;
+    }
+
+    .menu-text {
+      text-align: center;
+      color: #cdd3db;
+      font-size: 0.95rem;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    @keyframes glowPulse {
+      0%,
+      100% {
+        box-shadow:
+          0 0 0 1px rgba(142,255,56,0.06),
+          0 18px 50px rgba(0,0,0,0.55),
+          0 0 20px rgba(142,255,56,0.08),
+          inset 0 0 18px rgba(142,255,56,0.06);
+      }
+
+      50% {
+        box-shadow:
+          0 0 0 1px rgba(142,255,56,0.10),
+          0 18px 50px rgba(0,0,0,0.55),
+          0 0 30px rgba(142,255,56,0.18),
+          inset 0 0 22px rgba(142,255,56,0.09);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .brand-title {
+        font-size: 2.2rem;
+      }
+
+      .logo-img {
+        width: 210px;
+      }
+
+      .dashboard-box {
+        padding: 26px 18px;
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="container py-5">
-  <h1 class="text-center main-title display-4 mb-5">Sistema de Inventario Repuestos de Carros</h1>
+<div class="main-wrapper">
 
-  <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-    <div class="col">
-      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/productos}">
-        <div class="card-body">
-          <div class="icon icon-productos mb-3"><i class="fas fa-cog fa-3x"></i></div>
-          <h2 class="card-title h4">Productos</h2>
-        </div>
-      </a>
+  <section class="hero-section">
+    <div class="logo-frame">
+      <img th:src="@{/images/logo.png}" alt="Logo El Sótano" class="logo-img">
     </div>
-    <div class="col">
-      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/proveedores}">
-        <div class="card-body">
-          <div class="icon icon-proveedores mb-3"><i class="fas fa-truck fa-3x"></i></div>
-          <h2 class="card-title h4">Proveedores</h2>
-        </div>
-      </a>
+
+    <h1 class="brand-title">Autopartes El Sótano</h1>
+    <div class="brand-line"></div>
+  </section>
+
+  <section class="dashboard-box">
+    <h2 class="section-title">Panel principal</h2>
+
+    <div class="row g-4">
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <a class="menu-card" th:href="@{/productos}">
+          <div class="menu-icon icon-productos">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <div class="menu-title">Productos</div>
+          <p class="menu-text">Consulta y administra el inventario de repuestos</p>
+        </a>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <a class="menu-card" th:href="@{/proveedores}">
+          <div class="menu-icon icon-proveedores">
+            <i class="fas fa-truck"></i>
+          </div>
+          <div class="menu-title">Proveedores</div>
+          <p class="menu-text">Gestiona proveedores y su información</p>
+        </a>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <a class="menu-card" th:href="@{/clientes}">
+          <div class="menu-icon icon-clientes">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="menu-title">Clientes</div>
+          <p class="menu-text">Administra clientes fácilmente</p>
+        </a>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <a class="menu-card" th:href="@{/ventas}">
+          <div class="menu-icon icon-ventas">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div class="menu-title">Ventas</div>
+          <p class="menu-text">Registra ventas y salidas de stock</p>
+        </a>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <a class="menu-card" th:href="@{/compras}">
+          <div class="menu-icon icon-compras">
+            <i class="fas fa-receipt"></i>
+          </div>
+          <div class="menu-title">Compras</div>
+          <p class="menu-text">Registra compras y entradas</p>
+        </a>
+      </div>
+
     </div>
-    <div class="col">
-      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/clientes}">
-        <div class="card-body">
-          <div class="icon icon-clientes mb-3"><i class="fas fa-user fa-3x"></i></div>
-          <h2 class="card-title h4">Clientes</h2>
-        </div>
-      </a>
-    </div>
-    <div class="col">
-      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/ventas}">
-        <div class="card-body">
-          <div class="icon icon-ventas mb-3"><i class="fas fa-shopping-cart fa-3x"></i></div>
-          <h2 class="card-title h4">Ventas</h2>
-        </div>
-      </a>
-    </div>
-    <div class="col">
-      <a class="card text-center text-decoration-none text-dark-blue shadow-sm p-3 card-hover" th:href="@{/compras}">
-        <div class="card-body">
-          <div class="icon icon-compras mb-3"><i class="fas fa-receipt fa-3x"></i></div>
-          <h2 class="card-title h4">Compras</h2>
-        </div>
-      </a>
-    </div>
-  </div>
+  </section>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
